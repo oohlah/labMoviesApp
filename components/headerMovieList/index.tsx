@@ -19,7 +19,7 @@ interface HeaderProps {
     title: string;
 }
 
-const Header: React.C<HeaderProps> = (headerProps) => {
+const Header: React.FC<HeaderProps> = (headerProps) => {
     const title = headerProps.title
 
     return (
