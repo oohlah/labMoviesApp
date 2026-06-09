@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { MovieDetailsProps, MovieImage } from "../types/interfaces";
+import { getMovie, getMovieImages } from "../api/tmdb-api";
 
 const styles = {
   imageListRoot: {
@@ -25,37 +26,21 @@ const { id } = useParams();
 const [ movie, setMovie ] = useState<MovieDetailsProps>();
 const [ images, setImages ] = useState<MovieImage[]>([]);
 
-useEffect(() => {
-
-fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    )
-
-     .then((res) => {
-      return res.json();
-     })
-
-     .then((movie) => {
-      console.log(movie);
+ useEffect(() => {
+    getMovie(id ?? "").then((movie) => {
       setMovie(movie);
-         });
+    });
   }, [id]);
 
-
   useEffect(() => {
-
- fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    )
-
-    .then ((res) => res.json())
-    .then((json) => json.posters)
-    .then((images) => {
+    getMovieImages(id ?? "").then((images) => {
       setImages(images);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-   //added dependency here because image not rendereing without it
-     }, [id]);
+ 
+
 
   return (
     <>
