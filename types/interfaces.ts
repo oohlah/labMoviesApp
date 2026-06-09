@@ -48,4 +48,4 @@ export interface MoviePageProps {
   images: MovieImage[];
 }
 
-export type FilterOption = "title" | "genere";
+export type FilterOption = "title" | "genre";

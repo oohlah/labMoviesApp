@@ -26,11 +26,12 @@ const styles = {
 };
 
 interface FilterMoviesCardProps {
+  onUserInput: (f: FilterOption, s: string)  => void;
   titleFilter: string;
   genreFilter: string;
 }
 
-    const FilterMoviesCard: React.FC< FilterMoviesCardProps> = ({ titleFilter, genreFilter}) => {
+    const FilterMoviesCard: React.FC< FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
 
         const [ genres, setGenres ] = useState([{ id: "0", name: "All"}])
 
@@ -50,10 +51,10 @@ interface FilterMoviesCardProps {
        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
-        const handleChange = (e: SelectChangeEvent, type: FilterOptions, value: string) =>
+        const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) =>
         {
           e.preventDefault()
-          //to continue
+         onUserInput(type, value)
         }
 
          const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
