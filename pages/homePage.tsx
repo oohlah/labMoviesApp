@@ -16,6 +16,7 @@ const HomePage: React.FC = () => {
     setMovies(updatedMovies);
   };
 
+  console.log("FAVOURITES: ", favourites);
   useEffect(() => {
      getMovies().then(movies => {
       setMovies(movies);

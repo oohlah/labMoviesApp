@@ -31,6 +31,7 @@ interface MovieCardProps  {
 
 const MovieCard: React.FC<MovieCardProps> = ({movie, selectFavourite}) => {
  
+
 const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     selectFavourite(movie.id);
