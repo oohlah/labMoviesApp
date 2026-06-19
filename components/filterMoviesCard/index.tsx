@@ -26,18 +26,22 @@ const styles = {
     },
 };
 
+//interface is here because it's only used by this component - design choice
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string)  => void;
   titleFilter: string;
   genreFilter: string;
 }
 
+    //destructured FilterMovieCardProps in params to access properties directly VS just (props) - props.titleFilter
     const FilterMoviesCard: React.FC< FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
 
         const [ genres, setGenres ] = useState([{ id: "0", name: "All"}])
 
       useEffect(() => {
-    getGenres().then((allGenres) => {
+        //getGenres fetching movie genres from api - imported from api/tmdb-api.ts
+      getGenres().then((allGenres) => {
+        //New State Array - replace state with: local useState, AND allGenres returned from the Api
       setGenres([genres[0], ...allGenres]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

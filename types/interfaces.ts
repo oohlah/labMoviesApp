@@ -20,7 +20,7 @@ export interface BaseMovieProps {
 
   export interface BaseMovieListProps { 
     movies: BaseMovieProps[];
-    selectFavourite: (movieId: number) => void;
+    selectFavourite: (movieId: number) => void; //this is a function (sibling not property)
   }  
 
     export interface MovieDetailsProps extends BaseMovieProps {
@@ -49,9 +49,18 @@ export interface MoviePageProps {
   images: MovieImage[];
 }
 
+//FilterOption not an object shape - a set of allowed values
 export type FilterOption = "title" | "genre";
 
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
 }
+
+ export interface Review{
+    id: string;
+    content: string
+    author: string
+  }
+
+  
