@@ -20,7 +20,7 @@ export interface BaseMovieProps {
 
   export interface BaseMovieListProps { 
     movies: BaseMovieProps[];
-    selectFavourite: (movieId: number) => void; //this is a function (sibling not property)
+    action: (m: BaseMovieProps) => React.ReactNode;
   }  
 
     export interface MovieDetailsProps extends BaseMovieProps {
