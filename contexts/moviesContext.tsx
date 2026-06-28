@@ -6,19 +6,24 @@ interface MovieContextInterface {
     addToFavourites: ((movie: BaseMovieProps) => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
     addReview: ((movie: BaseMovieProps, review: Review) => void);
+    mustWatch: number[];
+    addToMustWatch: ((movie: BaseMovieProps) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
     addToFavourites: () => {},
     removeFromFavourites: () => {},
     addReview: (movie, review) => { movie.id, review}, 
+    mustWatch: [],
+    addToMustWatch: () => {}
 };
 
-export const MoviesContext = React.createContext<MovieContextInterface>({initialContextState});
+export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>( [] );
     const [favourites, setFavourites] = useState<number[]>([]);
+    const [mustWatch, setMustWatch] = useState<number[]>([]);
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -38,14 +43,27 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setMyReviews( {...myReviews, [movie.id]: review } )
       };
 
-
+  const addToMustWatch = useCallback((movie: BaseMovieProps) => {
+        setMustWatch((prevMustWatch) => {
+            if (!prevMustWatch.includes(movie.id)) {
+                console.log(`Added "${movie.title}" to Must Watch`);
+                const updateMustWatch=[...prevMustWatch, movie.title];
+                console.log("Must Watch: ", updateMustWatch);
+                return updateMustWatch;
+            }
+           
+            return prevMustWatch;
+        });
+    }, []);
     return (
         <MoviesContext.Provider
             value={{
                 favourites,
                 addToFavourites,
                 removeFromFavourites,
-                addReview
+                addReview,
+                mustWatch,
+                addToMustWatch
             }}
         >
             {children}

@@ -4,7 +4,7 @@ import { DiscoverMovies, BaseMovieProps } from "../types/interfaces";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-import AddToPlaylistIcon from "@mui/icons-material/PlaylistAdd";
+import AddToPlaylist from "../components/cardIcons/addToPlaylist";
 
 
 
@@ -31,7 +31,7 @@ const UpcomingMovies: React.FC = () => {
       action={(movie: BaseMovieProps) => {
           return (
             <>
-              <AddToPlaylistIcon />
+              <AddToPlaylist {...movie}/>
       
             </>
           );
