@@ -47,7 +47,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setMustWatch((prevMustWatch) => {
             if (!prevMustWatch.includes(movie.id)) {
                 console.log(`Added "${movie.title}" to Must Watch`);
-                const updateMustWatch=[...prevMustWatch, movie.title];
+                const updateMustWatch=[...prevMustWatch, movie.id]; //use unique id
                 console.log("Must Watch: ", updateMustWatch);
                 return updateMustWatch;
             }
