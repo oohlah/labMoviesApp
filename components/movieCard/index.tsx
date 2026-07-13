@@ -15,6 +15,7 @@ import img from '../../images/film-poster-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces"; 
 import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
+import AddToPlaylistIcon from "@mui/icons-material/PlaylistAdd";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -33,8 +34,12 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
  
 const { favourites, addToFavourites, removeFromFavourites } = useContext(MoviesContext);//NEW
 
+   const { mustWatch, addToMustWatch } = useContext(MoviesContext);
+
+
 const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
+ const isMustWatch = mustWatch.find((id) => id === movie.id)? true : false;
 
 {action(movie)}
 
@@ -46,12 +51,16 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
     <Card sx={styles.card}>
          <CardHeader
         avatar={
-         isFavourite ? (
-            <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
+           isFavourite ? (
+      <Avatar sx={styles.avatar}>
+        <FavoriteIcon />
+      </Avatar>
+          ) : isMustWatch ? (
+      <Avatar sx={styles.avatar}>
+         <AddToPlaylistIcon />
+      </Avatar>
+    ) : null
+  }
         title={
           <Typography variant="h5" component="p">
             {movie.title}{" "}
