@@ -85,23 +85,33 @@ export interface DiscoverMovies {
     movieId: number,
   }
 
-  export interface CastMember {
+  export interface Person {
   id: number;
   name: string;
-  character: string;
   profile_path: string | null;
+  known_for_department: string;
+}
+
+  export interface CastMember extends Person{
+  character: string;
   order: number;
 }
 
-export interface CrewMember {
-  id: number;
-  name: string;
+export interface CrewMember extends Person{
   job: string;
   department: string;
-  profile_path: string | null;
 }
+
+export interface PersonListProps {
+  people: (CastMember[] | CrewMember[]);
+}
+
 
 export interface MovieCredits {
   cast: CastMember[];
   crew: CrewMember[];
 }
+
+  export interface MovieCreditsListProps { 
+    credits: MovieCredits[];
+  } 
