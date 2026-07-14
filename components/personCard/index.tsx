@@ -1,6 +1,7 @@
 import React from "react";
-import { MovieCredits } from "../../types/interfaces"; 
+import { CastMember, CrewMember } from "../../types/interfaces"; 
 import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
@@ -15,39 +16,29 @@ const styles = {
 };
 
 interface PersonCardProps  {
-  credits: MovieCredits;
+  person: CastMember | CrewMember;
 //   action: (m: BaseMovieProps) => React.ReactNode;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({credits}) => {
+const PersonCard: React.FC<PersonCardProps> = ({person}) => {
  
-// const { favourites, addToFavourites, removeFromFavourites } = useContext(MoviesContext);//NEW
 
-//    const { mustWatch, addToMustWatch } = useContext(MoviesContext);
-
-
-// const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
-
-//  const isMustWatch = mustWatch.find((id) => id === movie.id)? true : false;
-
-// {action(movie)}
-
-//   const handleRemoveFromFavourite = (e: MouseEvent<HTMLButtonElement>) => {
-//     e.preventDefault();
-//       removeFromFavourites(movie);
-//   };
   return (
    <Card sx={styles.card}>
-    <Typography variant="h5" component="p">
-      {credits.cast[0]?.name}
-    </Typography>
-
+    <CardHeader
+     title={
+          <Typography variant="h5" component="p">
+            {person.name}{" "}
+          </Typography>
+        }
+      />
+    
     <CardContent>
       <Grid container>
         <Grid item xs={6}>
           <Typography variant="h6" component="p">
             <CalendarIcon fontSize="small" />
-            {credits.cast[0]?.character}
+            {"character" in person ? person.character : person.job}
           </Typography>
         </Grid>
       </Grid>
