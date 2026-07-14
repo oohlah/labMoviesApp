@@ -6,9 +6,11 @@ import { useQuery } from "react-query";
 import { getMovie, getMovieCredits} from "../api/tmdb-api";
 import Spinner from '../components/spinner';
 import { MovieDetailsProps, MovieCredits } from "../types/interfaces";
-import PersonCard from "../components/personCard";
+import PersonList from "../components/personList";
 
 const MovieDetailsPage: React.FC= () => {
+
+
     const { id } = useParams();
   const { data: movie, error: movieErrorMessage, isLoading: movieLoading, isError: movieError} = useQuery<MovieDetailsProps, Error>(
     ["movie", id],
@@ -34,6 +36,21 @@ console.log("Credits data:", credits);
     if (creditsError) {
     return <h1>{(creditsErrorMessage as Error).message}</h1>;
   }
+
+  const actors = credits?.cast;
+
+  const directors = credits?.crew.filter(
+  (person) => person.department === "Directing"
+);
+
+const writers = credits?.crew.filter(
+  (person) => person.department === "Writing"
+);
+
+const producers = credits?.crew.filter(
+  (person) => person.department === "Production"
+);
+
   return (
     <>
       {movie && credits ? ( //ternarary operator - only display page if it's ready to render
@@ -44,8 +61,17 @@ console.log("Credits data:", credits);
 
          <MovieDetails {...movie} />
 
-          <h2>Cast</h2>
-          <PersonCard credits={credits}/>
+         <h2>Cast</h2>
+         <PersonList people={actors}/>
+
+        <h2>Directors</h2>
+        <PersonList people={directors}/>
+
+        <h2>Writers</h2>
+        <PersonList people={writers}/>
+
+        <h2>Production</h2>
+        <PersonList people={producers}/>
         
          </PageTemplate>
         
