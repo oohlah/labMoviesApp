@@ -24,7 +24,7 @@ const styles = {
 
 interface TemplateMoviePageProps {
     movie: MovieDetailsProps;
-    children: React.ReactElement;
+    children: React.ReactNode; // accept multiple elements 
 }
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) => {
