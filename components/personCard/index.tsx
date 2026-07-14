@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardMedia from "@mui/material/CardMedia";
 import img from '../../images/film-poster-placeholder.png';
+import { Link } from "react-router-dom";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -51,9 +52,11 @@ const PersonCard: React.FC<PersonCardProps> = ({person}) => {
             {"character" in person ? person.character : person.job}
           </Typography>
         </Grid>
+         <Link to={`/person/${person.id}`}>
         <Button variant="outlined" size="medium" color="primary">
         More info ....
         </Button>
+        </Link>
       </Grid>
     </CardContent>
   </Card>
