@@ -5,8 +5,8 @@ import PageTemplate from "../components/templateMoviePage";
 import { useQuery } from "react-query";
 import { getMovie, getMovieCredits} from "../api/tmdb-api";
 import Spinner from '../components/spinner';
-import { MovieDetailsProps, MovieCredits } from "../types/interfaces";
-import PersonList from "../components/personList";
+import { MovieDetailsProps, MovieCredits} from "../types/interfaces";
+import MovieCreditsSection from "../components/movieCredits";
 
 const MovieDetailsPage: React.FC= () => {
 
@@ -37,19 +37,7 @@ console.log("Credits data:", credits);
     return <h1>{(creditsErrorMessage as Error).message}</h1>;
   }
 
-  const actors = credits?.cast;
 
-  const directors = credits?.crew.filter(
-  (person) => person.department === "Directing"
-);
-
-const writers = credits?.crew.filter(
-  (person) => person.department === "Writing"
-);
-
-const producers = credits?.crew.filter(
-  (person) => person.department === "Production"
-);
 
   return (
     <>
@@ -61,17 +49,8 @@ const producers = credits?.crew.filter(
 
          <MovieDetails {...movie} />
 
-         <h2>Cast</h2>
-         <PersonList people={actors}/>
-
-        <h2>Directors</h2>
-        <PersonList people={directors}/>
-
-        <h2>Writers</h2>
-        <PersonList people={writers}/>
-
-        <h2>Production</h2>
-        <PersonList people={producers}/>
+         <MovieCreditsSection credits={credits}/>
+        
         
          </PageTemplate>
         
