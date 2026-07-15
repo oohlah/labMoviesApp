@@ -18,6 +18,12 @@ const styles = {
     margin: "2rem auto",
     padding: 2,
   },
+  media: {
+    height: 600,
+    width: "100%",
+    objectFit: "contain",
+    borderRadius: 2,
+  },
 };
 
 const PersonDetailsPage: React.FC = () => {
