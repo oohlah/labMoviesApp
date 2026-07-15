@@ -92,3 +92,15 @@ export const getMovieCredits = (id: string | number) => {
       throw error;
     });
 };
+
+export const getPersonDetails = async (id: string | number) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to get person details");
+  }
+
+  return response.json();
+};
