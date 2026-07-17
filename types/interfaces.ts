@@ -102,6 +102,26 @@ export interface CrewMember extends Person{
   department: string;
 }
 
+export interface BasePersonMovieCredit extends BaseMovieProps {
+  credit_id: string;
+  original_title: string;
+}
+
+export interface PersonCastCredit extends BasePersonMovieCredit {
+  character: string;
+  order: number;
+}
+
+export interface PersonCrewCredit extends BasePersonMovieCredit {
+  job: string;
+  department: string;
+}
+
+export interface PersonMovieCredits {
+  cast: PersonCastCredit[];
+  crew: PersonCrewCredit[];
+}
+
 export interface PersonListProps {
   people: (CastMember[] | CrewMember[]);
 }
