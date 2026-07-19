@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BaseMovieProps, Review } from "../types/interfaces";
+import { BaseMovieProps, Review, FantasyMovie } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
@@ -8,6 +8,7 @@ interface MovieContextInterface {
     addReview: ((movie: BaseMovieProps, review: Review) => void);
     mustWatch: number[];
     addToMustWatch: ((movie: BaseMovieProps) => void);
+    addFantasyMovie: ((fantasyMovie: FantasyMovie) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
@@ -15,7 +16,8 @@ const initialContextState: MovieContextInterface = {
     removeFromFavourites: () => {},
     addReview: (movie, review) => { movie.id, review}, 
     mustWatch: [],
-    addToMustWatch: () => {}
+    addToMustWatch: () => {},
+    addFantasyMovie: (fantasyMovie) => { fantasyMovie}, 
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -24,6 +26,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const [myReviews, setMyReviews] = useState<Review[]>( [] );
     const [favourites, setFavourites] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
+    const [myFantasyMovies, setMyFantasyMovies] = useState<FantasyMovie[]>( [] );
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -55,6 +58,15 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             return prevMustWatch;
         });
     }, []);
+
+     const addFantasyMovie  = (fantasyMovie: FantasyMovie) => {
+    setMyFantasyMovies((myFantasyMovies) => [
+        ...myFantasyMovies,
+        fantasyMovie]);
+   };
+
+ 
+
     return (
         <MoviesContext.Provider
             value={{
@@ -63,7 +75,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 removeFromFavourites,
                 addReview,
                 mustWatch,
-                addToMustWatch
+                addToMustWatch,
+                addFantasyMovie
             }}
         >
             {children}
