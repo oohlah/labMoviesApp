@@ -147,3 +147,13 @@ export interface MovieCredits {
   known_for_department: string;
   popularity: number;
 }
+
+ export interface FantasyMovie {
+  title: string;
+  overview: string;
+  genres: string[];
+  release_date: string;
+  runtime: number;
+  production_countries: string[];
+
+}
