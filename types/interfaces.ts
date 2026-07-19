@@ -149,6 +149,7 @@ export interface MovieCredits {
 }
 
  export interface FantasyMovie {
+  id: number;
   title: string;
   overview: string;
   genres: string[];
