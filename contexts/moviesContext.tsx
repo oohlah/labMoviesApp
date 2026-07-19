@@ -8,6 +8,7 @@ interface MovieContextInterface {
     addReview: ((movie: BaseMovieProps, review: Review) => void);
     mustWatch: number[];
     addToMustWatch: ((movie: BaseMovieProps) => void);
+    fantasyMovies: FantasyMovie[]; 
     addFantasyMovie: ((fantasyMovie: FantasyMovie) => void);
 }
 const initialContextState: MovieContextInterface = {
@@ -17,6 +18,7 @@ const initialContextState: MovieContextInterface = {
     addReview: (movie, review) => { movie.id, review}, 
     mustWatch: [],
     addToMustWatch: () => {},
+    fantasyMovies: [],
     addFantasyMovie: (fantasyMovie) => { fantasyMovie}, 
 };
 
@@ -76,6 +78,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 addReview,
                 mustWatch,
                 addToMustWatch,
+                fantasyMovies: myFantasyMovies,
                 addFantasyMovie
             }}
         >
