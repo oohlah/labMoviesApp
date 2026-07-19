@@ -51,6 +51,7 @@ const context = useContext(MoviesContext);
        };
 
        const onSubmit: SubmitHandler<FantasyMovie> = (fantasyMovie) => {
+               fantasyMovie.id = Date.now(); //quick id for now
                context.addFantasyMovie(fantasyMovie);
                 setOpen(true);
              };
