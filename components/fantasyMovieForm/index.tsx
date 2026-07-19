@@ -33,7 +33,16 @@ const FantasyMovieForm: React.FC<BaseMovieProps> = (movie) => {
         }
       };
 
-
+const countries = [
+  "United States",
+  "United Kingdom",
+  "Ireland",
+  "Canada",
+  "France",
+  "Germany",
+  "Japan",
+  "Australia"
+];
 
 
 const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
@@ -175,6 +184,33 @@ const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres",
     />
 
 
+
+          <Controller
+            name="production_countries"
+            control={control}
+            rules={{ required: "Production Countries are required" }}
+            defaultValue={[]}
+            render={({ field: { onChange, value } }) => (
+          <FormControl sx={{ width: "40ch", marginTop: 2, display: "flex" }}>
+          <InputLabel id="production-countries">Production Countries</InputLabel>
+        <Select
+            id="production-countries"
+            multiple={true}
+            value={value}
+            onChange={onChange}
+        >
+            {countries.map((country) => {
+        return (
+          <MenuItem value={country}>
+            {country}
+          </MenuItem>
+        );
+      })}
+
+    </Select>
+      </FormControl>
+      )}
+    />
     
             <Box >
               <Button
