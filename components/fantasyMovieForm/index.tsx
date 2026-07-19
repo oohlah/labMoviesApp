@@ -9,7 +9,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { FantasyMovie } from "../../types/interfaces";
 import styles from "../reviewForm/styles"
-
+import countries from "./countriesList";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
@@ -33,16 +33,7 @@ const FantasyMovieForm: React.FC = () => {
         }
       };
 
-const countries = [
-  "United States",
-  "United Kingdom",
-  "Ireland",
-  "Canada",
-  "France",
-  "Germany",
-  "Japan",
-  "Australia"
-];
+
 
   const { control, formState: { errors }, handleSubmit, reset, } = useForm<FantasyMovie>(defaultValues);
 
@@ -51,7 +42,7 @@ const countries = [
 const context = useContext(MoviesContext);
  const [open, setOpen] = useState(false);
 
-const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+  const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
 
     
  const handleSnackClose = () => {
