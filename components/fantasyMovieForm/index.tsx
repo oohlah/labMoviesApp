@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useContext,  useState, ChangeEvent } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,21 +6,21 @@ import { GenreData } from "../../types/interfaces";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-// import { MoviesContext } from "../../contexts/moviesContext";
-import { BaseMovieProps, FantasyMovie } from "../../types/interfaces";
+import { MoviesContext } from "../../contexts/moviesContext";
+import { FantasyMovie } from "../../types/interfaces";
 import styles from "../reviewForm/styles"
-// import Snackbar from "@mui/material/Snackbar";
-// import Alert from "@mui/material/Alert";
+
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import InputLabel from "@mui/material/InputLabel";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
-
-
-const FantasyMovieForm: React.FC<BaseMovieProps> = (movie) => {
+const FantasyMovieForm: React.FC = () => {
 
      const defaultValues = {
         defaultValues: {
@@ -44,19 +44,25 @@ const countries = [
   "Australia"
 ];
 
+  const { control, formState: { errors }, handleSubmit, reset, } = useForm<FantasyMovie>(defaultValues);
+
+
+ const navigate = useNavigate();
+const context = useContext(MoviesContext);
+ const [open, setOpen] = useState(false);
 
 const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
 
-      const {
-        control,
-        formState: { errors }, reset, } = useForm<FantasyMovie>(defaultValues);
-
-
-        //    const navigate = useNavigate();
-    //   const context = useContext(MoviesContext);
-    //   const [rating, setRating] = useState(3);
-    //   const [open, setOpen] = useState(false);
     
+ const handleSnackClose = () => {
+        setOpen(false);
+        navigate("/movies/favourites");
+       };
+
+       const onSubmit: SubmitHandler<FantasyMovie> = (fantasyMovie) => {
+               context.addFantasyMovie(fantasyMovie);
+                setOpen(true);
+             };
 
   if (isLoading) {
     return <Spinner />;
@@ -69,11 +75,28 @@ const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres",
       return (
         <Box component="div" sx={styles.root}>
           <Typography component="h2" variant="h3">
-            Write a review
+            Add a Fantasy Movie
           </Typography>
        
+         <Snackbar
+        sx={styles.snack}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+         onClose={handleSnackClose}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={handleSnackClose}
+        >
+          <Typography variant="h4">
+            Thank you for submitting a fantasy movie
+          </Typography>
+        </Alert>
+      </Snackbar>
 
-          <form style={styles.form}>
+
+           <form style={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
             <Controller
               name="title"
               control={control}
