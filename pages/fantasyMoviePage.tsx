@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import FantasyMovieCard from "../components/fantasyMovieCard";
+import { MoviesContext } from "../contexts/moviesContext";
+
+
 
 const FantasyMoviesPage: React.FC = () => {
   
+    const { fantasyMovies } = useContext(MoviesContext);
+
     return (
         
         <>
         <h1>My Fantasy Movies</h1>
+        {fantasyMovies.map(movie => (
+
+        <FantasyMovieCard key={movie.id} movie={movie}/> // ADD MOVIE DATA
+        ))};
         <p> Create a Fantasy Movie</p>
          <Link to={`/fantasyMovieForm`}>
         <Button variant="outlined" size="medium" color="primary">
