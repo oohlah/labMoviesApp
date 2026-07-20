@@ -19,12 +19,11 @@ const styles = {
   },
 };
 
-interface FantasyMovieCardProps {
+interface FantasyMovieCardTemp {
     movie: FantasyMovie;
 }
 
-
-const FantasyMovieCard: React.FC<FantasyMovieCardProps> = ({movie}) => {
+const FantasyMovieCard: React.FC<FantasyMovieCardTemp> = ({movie}) => {
  
 
   return (

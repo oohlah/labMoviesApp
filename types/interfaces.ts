@@ -158,3 +158,8 @@ export interface MovieCredits {
   production_countries: string[];
 
 }
+
+ export interface FantasyMovieListProps { 
+    movies: FantasyMovie[];
+
+  }  
