@@ -10,7 +10,7 @@ import { DiscoverMovies, BaseMovieProps } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-
+import Pagination from "@mui/material/Pagination";
 
 const titleFiltering = {
   name: "title",
@@ -23,11 +23,25 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
+
+
 const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
+
+   const [page, setPage] = React.useState(1); 
+   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["discover", page], () => getMovies(page),  { keepPreviousData: true }); // still show page one when page 2 is loading
+   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
+
+ const handlePageChange = (
+  event: React.ChangeEvent<unknown>,
+  value: number
+) => {
+  console.log(value); //value changing
+  setPage(value);
+};
+
+
 
     if (isLoading) {
     return <Spinner />;
@@ -50,6 +64,8 @@ const HomePage: React.FC = () => {
     const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
+  console.log("PAGE", page);
+  console.log("PAGE DATA: ", data?.page);   //needs to change
 
   return (
     <>
@@ -58,8 +74,15 @@ const HomePage: React.FC = () => {
         movies={displayedMovies}
         action={(movie: BaseMovieProps) =>{
           return <AddToFavouritesIcon {...movie} />
+        
         }}
       />
+        <Pagination
+         count={data?.total_pages || 10}
+         color="primary" 
+         page={page} 
+         onChange={handlePageChange} />
+      
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
