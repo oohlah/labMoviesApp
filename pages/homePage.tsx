@@ -11,6 +11,9 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import Pagination from "@mui/material/Pagination";
+import UsePagination from "../hooks/usePagination";
+import type { PaginationProp } from "../types/interfaces";
+
 
 const titleFiltering = {
   name: "title",
@@ -27,19 +30,12 @@ const genreFiltering = {
 
 const HomePage: React.FC = () => {
 
-   const [page, setPage] = React.useState(1); 
+   const { page, handlePageChange }: PaginationProp = UsePagination(); //destructure UsePagination function
+  
    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["discover", page], () => getMovies(page),  { keepPreviousData: true }); // still show page one when page 2 is loading
    const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
-
- const handlePageChange = (
-  event: React.ChangeEvent<unknown>,
-  value: number
-) => {
-  console.log(value); //value changing
-  setPage(value);
-};
 
 
 

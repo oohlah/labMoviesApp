@@ -163,3 +163,11 @@ export interface MovieCredits {
     movies: FantasyMovie[];
 
   }  
+
+  export interface PaginationProp {
+    page: number;
+   handlePageChange: (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => void;
+  }

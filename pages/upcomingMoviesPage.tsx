@@ -6,20 +6,15 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToPlaylist from "../components/cardIcons/addToPlaylist";
 import Pagination from "@mui/material/Pagination";
+import UsePagination from "../hooks/usePagination";
+import type { PaginationProp} from "../types/interfaces";
 
 const UpcomingMovies: React.FC = () => {
 
-   const [page, setPage] = React.useState(1); 
-    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["upcoming", page], () => getUpcomingMovies(page),  { keepPreviousData: true });
-      
+  const {page, handlePageChange}: PaginationProp = UsePagination();
 
- const handlePageChange = (
-  event: React.ChangeEvent<unknown>,
-  value: number
-) => {
-  console.log(value); //value changing
-  setPage(value);
-};
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["upcoming", page], () => getUpcomingMovies(page),  { keepPreviousData: true });
+      
 
 
    if (isLoading) {
@@ -55,7 +50,6 @@ const UpcomingMovies: React.FC = () => {
            color="primary" 
            page={page} 
            onChange={handlePageChange} />
-    
 
 
 </>
