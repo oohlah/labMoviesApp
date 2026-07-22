@@ -14,6 +14,8 @@ import AddMovieReviewPage from './pages/addMovieReviewPage';
 import PersonDetailsPage from "./pages/personDetailsPage";
 import FantasyMoviesPage from "./pages/fantasyMoviePage";
 import FantasyMovieFormPage from "./pages/fantasyMovieFormPage";
+import LoginPage from "./pages/loginPage";
+import PrivateRoute from "./components/component_routes/private_route";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,11 +42,12 @@ const App = () => {
        <SiteHeader /> 
         <MoviesContextProvider>
       <Routes>
-        <Route path="/fantasyMovieForm" element={<FantasyMovieFormPage />} />
+        <Route path="/loginPage" element={<LoginPage />} />
+        <Route path="/fantasyMovieForm" element={<PrivateRoute><FantasyMovieFormPage /></PrivateRoute>} />
         <Route path="/fantasyMovies" element={<FantasyMoviesPage />} />
         <Route path="/person/:id" element={<PersonDetailsPage />} />
         <Route path="/reviews/:id" element={<MovieReviewPage />} />
-        <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+        <Route path="/reviews/form" element={<PrivateRoute><AddMovieReviewPage /></PrivateRoute>}/>
         <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
         <Route path="/movies/:id" element={<MoviePage />} />
         <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
