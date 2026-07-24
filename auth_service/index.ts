@@ -1,5 +1,13 @@
+import supabase from "../lib/supbase";
+
 const auth = {
-    isUser: false, // temp set to false test private routes
-}
+  async isUser() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return !!user;
+  },
+};
 
 export default auth;
