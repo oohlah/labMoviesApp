@@ -16,6 +16,7 @@ import FantasyMoviesPage from "./pages/fantasyMoviePage";
 import FantasyMovieFormPage from "./pages/fantasyMovieFormPage";
 import LoginPage from "./pages/loginPage";
 import PrivateRoute from "./components/component_routes/private_route";
+import SignupPage from "./pages/signupPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ const App = () => {
        <SiteHeader /> 
         <MoviesContextProvider>
       <Routes>
+        <Route path="/signupPage" element={<SignupPage />} />
         <Route path="/loginPage" element={<LoginPage />} />
         <Route path="/fantasyMovieForm" element={<PrivateRoute><FantasyMovieFormPage /></PrivateRoute>} />
         <Route path="/fantasyMovies" element={<FantasyMoviesPage />} />
