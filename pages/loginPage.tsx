@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import supabase from "../lib/supbase";
 
 
 const styles = {
@@ -34,19 +35,42 @@ const styles = {
 
 const LoginPage: React.FC = () => {
  const navigate = useNavigate();
- const [username, setUsername] = useState("");
+ const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
+ const [message, setMessage] = useState("");
+ const location = useLocation();
+
+ const from = location.state?.from?.pathname || "/";
 
 
- const handleLogin = (e: React.FormEvent) => {
+
+ const handleLogin = async (e: React.FormEvent) => {
    e.preventDefault();
 
+const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    
+   });
 
+    if(error){
+    console.log(error.status); // get status code
+    setMessage(error.message);
+    return;
+   }
+
+   
+
+   if(data.session){
+    setMessage(`User logged in with email: ${email}`);
+     // redirect to home page on login
+   navigate(from);  // SHOULD NAV TO PREV LOCATION - NOT WORKING
+   }else{
+    setMessage("Log in Failed");
+   }
   
-   console.log("Logging in with:", username, password);
   
-   // redirect to home page on login
-   navigate("/");
+
  };
 
 
@@ -57,7 +81,7 @@ const LoginPage: React.FC = () => {
          Login
        </Typography>
        <Typography variant="body1" align="center" color="textSecondary">
-         Sign in to access premium features
+         Log in to access premium features
        </Typography>
        <form style={styles.form} onSubmit={handleLogin}>
          <TextField
@@ -65,9 +89,9 @@ const LoginPage: React.FC = () => {
            margin="normal"
            required
            fullWidth
-           label="Username"
-           value={username}
-           onChange={(e) => setUsername(e.target.value)}
+           label="Email"
+           value={email}
+           onChange={(e) => setEmail(e.target.value)}
            autoFocus
          />
          <TextField
@@ -87,8 +111,17 @@ const LoginPage: React.FC = () => {
            color="primary"
            sx={styles.submit}
          >
-           Sign In
+           Log In
          </Button>
+         {message && (
+       <Typography color="error" sx={{ mt: 2 }}>
+         {message}
+       </Typography>
+         )}
+        <>
+        <span>Don't already have an account? </span>
+        <Link to="/signupPage">Sign Up</Link>
+        </>
        </form>
      </Paper>
    </Box>
