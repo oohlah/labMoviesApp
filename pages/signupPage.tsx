@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link, useLocation} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -42,6 +42,10 @@ const SignupPage: React.FC = () => {
  const [confirmPassword, setConfirmPassword] = useState("");
  const [message, setMessage] = useState("");
 
+  const location = useLocation();
+
+   const from = location.state?.from?.pathname || "/";
+
  const handleSignup = async (e: React.FormEvent) => {
    e.preventDefault();
    setMessage(""); // reset to empty string
@@ -71,8 +75,8 @@ const SignupPage: React.FC = () => {
    setPassword("");
 
 
-
-   navigate("/loginPage");
+console.log("PRIOR LOCATION STATE: ", from);
+ navigate(from); //go to saved location.state if exists else "/"
  }; 
 
 
@@ -155,8 +159,9 @@ const SignupPage: React.FC = () => {
      )}
       <>
        <span>already have an account? </span>
-       <Link to="/loginPage">Login</Link>
-      </>
+       {/* //use state if state exists */}
+       <Link to="/loginPage" state={location.state} replace >Login</Link> 
+      </> 
        </form>
      </Paper>
    </Box>
