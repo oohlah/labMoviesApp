@@ -38,7 +38,11 @@ const LoginPage: React.FC = () => {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [message, setMessage] = useState("");
+
  const location = useLocation();
+
+ console.log("LOCATION: ", location);
+console.log("LOCATION STATE: ", location.state); // should log link to previous page
 
  const from = location.state?.from?.pathname || "/";
 
@@ -120,7 +124,8 @@ const { data, error } = await supabase.auth.signInWithPassword({
          )}
         <>
         <span>Don't already have an account? </span>
-        <Link to="/signupPage">Sign Up</Link>
+        {/* //use state is state exists */}
+        <Link to="/signupPage" state={location.state} replace >Sign Up</Link> 
         </>
        </form>
      </Paper>
