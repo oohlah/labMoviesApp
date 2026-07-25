@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate, Link, useLocation} from "react-router-dom";
+import { Link} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import supabase from "../lib/supbase";
+import useAuthLocation from "../hooks/useAuthLocation";
 
 const styles = {
  root: {
@@ -33,7 +34,7 @@ const styles = {
 
 
 const SignupPage: React.FC = () => {
- const navigate = useNavigate();
+
 
 
  const [username, setUsername] = useState("");
@@ -42,9 +43,9 @@ const SignupPage: React.FC = () => {
  const [confirmPassword, setConfirmPassword] = useState("");
  const [message, setMessage] = useState("");
 
-  const location = useLocation();
 
-   const from = location.state?.from?.pathname || "/";
+
+ const { location } = useAuthLocation();
 
  const handleSignup = async (e: React.FormEvent) => {
    e.preventDefault();
@@ -74,9 +75,11 @@ const SignupPage: React.FC = () => {
    setEmail("");
    setPassword("");
 
+  
+  //stay on signupPage after login
+   
 
-console.log("PRIOR LOCATION STATE: ", from);
- navigate(from); //go to saved location.state if exists else "/"
+
  }; 
 
 

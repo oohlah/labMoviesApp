@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import supabase from "../lib/supbase";
-
+import useAuthLocation from "../hooks/useAuthLocation";
 
 const styles = {
  root: {
@@ -39,12 +39,11 @@ const LoginPage: React.FC = () => {
  const [password, setPassword] = useState("");
  const [message, setMessage] = useState("");
 
- const location = useLocation();
+const { from, location } = useAuthLocation();
 
  console.log("LOCATION: ", location);
 console.log("LOCATION STATE: ", location.state); // should log link to previous page
 
- const from = location.state?.from?.pathname || "/";
 
 
 
@@ -67,12 +66,18 @@ const { data, error } = await supabase.auth.signInWithPassword({
 
    if(data.session){
     setMessage(`User logged in with email: ${email}`);
+    console.log("NAVIGATING TO:", from);
      // redirect to home page on login
-   navigate(from);  // SHOULD NAV TO PREV LOCATION - NOT WORKING
+    // SHOULD NAV TO PREV LOCATION - oe homepage if no state.location
+      if (from) {
+     navigate(from.pathname, {
+      state: from.state,
+     });   // fix - include state, losing id from review form
    }else{
+    navigate("/");
     setMessage("Log in Failed");
    }
-  
+}
   
 
  };
