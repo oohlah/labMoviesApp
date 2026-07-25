@@ -1,6 +1,6 @@
 import React from "react"; // replace existing react import
 import {  MovieCredits, CrewMember } from "../../types/interfaces";
-import PersonList from "../../components/personList";
+import ImageCarousel from "../personImageCarousel";
 
 
 interface MovieCreditsSectionProps {
@@ -34,17 +34,23 @@ const producers = credits?.crew.filter(
         <>
         
 
+        
          <h2>Cast</h2>
-         <PersonList people={actors}/>
+        <ImageCarousel people={actors}>
+        </ImageCarousel>
 
-        <h2>Directors</h2>
-        <PersonList people={directors}/>
+
+        <h2>Directors </h2>
+        <ImageCarousel people={directors}>
+        </ImageCarousel>
 
         <h2>Writers</h2>
-        <PersonList people={writers}/>
+         <ImageCarousel people={writers}>
+        </ImageCarousel>
 
         <h2>Production</h2>
-        <PersonList people={producers}/>
+         <ImageCarousel people={producers}>
+        </ImageCarousel>
         
         
       </>
