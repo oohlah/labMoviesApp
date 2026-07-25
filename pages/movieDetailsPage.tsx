@@ -8,6 +8,7 @@ import Spinner from '../components/spinner';
 import { MovieDetailsProps, MovieCredits} from "../types/interfaces";
 import MovieCreditsSection from "../components/movieCredits";
 
+
 const MovieDetailsPage: React.FC= () => {
 
 
@@ -48,6 +49,8 @@ console.log("Credits data:", credits);
           
 
          <MovieDetails {...movie} />
+
+         
 
          <MovieCreditsSection credits={credits}/>
         

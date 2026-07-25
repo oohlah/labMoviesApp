@@ -45,6 +45,7 @@ const PersonDetailsPage: React.FC = () => {
   <>
     <PersonDetailsCard person={person!} />
 
+
     <PersonMovieCreditsSection movieCredits={movieCredits!}/>
 </>
 
