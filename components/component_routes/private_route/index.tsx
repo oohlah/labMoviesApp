@@ -17,9 +17,14 @@ const PrivateRoute : React.FC<PrivateRouteProps>= ({children}) => {
         auth.isUser().then(setIsAuthenticated);  //if auth isUser set Authenticated to true
     }, []);
 
-   
+    //is nul loading
+       if (isAuthenticated === null) {
+     return <p>Loading...</p>;
+    }
+
+    //no auth - loginPage and save previous location
       if (!isAuthenticated) {
-     return <Navigate to="/loginPage" state={{ from: location }} />;
+     return <Navigate to="/loginPage" state={{ from: location }} replace />; 
     }
 
     return (
