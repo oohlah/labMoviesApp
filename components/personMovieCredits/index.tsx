@@ -1,14 +1,7 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
-import Header from "../../components/headerMovieList";
-import MovieList from "../../components/movieList";
 import type { PersonMovieCredits } from "../../types/interfaces";
+import MovieImageCarousel from "../../components/movieImageCarousel";
 
-const styles = {
-  root: { 
-    backgroundColor: "#bfbfbf",
-  }
-};
 
 interface PersonMovieCreditsProps  {
   movieCredits: PersonMovieCredits;
@@ -41,39 +34,16 @@ const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCred
   <>
    
 
- <Grid container sx={styles.root} spacing={2}>
-     <Grid item xs={12}>
-       <Header title={popularMovies[0].title} />
-      </Grid>
 
-       <Grid item xs={12}>
-    <h2>Popular Movies</h2>
-    </Grid>
-
-      <Grid item xs={12}>
-    <Grid container spacing={5}>
-     <MovieList movies={popularMovies} action={() => null} />
-         </Grid>
-     </Grid>
-</Grid>
+ <h2>Popular Movies</h2>
+   <MovieImageCarousel movies={popularMovies}>
+        </MovieImageCarousel>
 
 
-{/* All Movies */}
-    <Grid container sx={styles.root} spacing={2}>
-     <Grid item xs={12}>
-       <Header title={orderedMovies[0].original_title} />
-      </Grid>
 
-       <Grid item xs={12}>
-    <h2>All Movies</h2>
-    </Grid>
-
-      <Grid item xs={12}>
-    <Grid container spacing={5}>
-     <MovieList movies={orderedMovies} action={() => null} />
-         </Grid>
-     </Grid>
-</Grid>
+ <h2>All Movies</h2>
+  <MovieImageCarousel movies={orderedMovies}>
+        </MovieImageCarousel>
 </>
  ): (
       <p>Waiting for movie credits...</p>
