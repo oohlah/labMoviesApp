@@ -52,7 +52,8 @@ const MovieImageCarousel: React.FC <MovieImageCarouselProps>= ({movies}) => {
           <div style={styles.emblaContainer}>
             {movies.map((movie) => (
               <div key={movie.id} style={styles.emblaSlide}>
-                <MovieCard movie={movie} action={() => {}}/> // temp no action
+                {/* // temp no action */}
+                <MovieCard movie={movie} action={() => {}}/> 
               </div>
             ))}
           </div>
