@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import FantasyMovieList from "../components/fantasyMovieCard";
 import { MoviesContext } from "../contexts/moviesContext";
-
+import Header from "../components/headerMovieList";
 
 
 const FantasyMoviesPage: React.FC = () => {
   
+    const title = "Fantasy Movies";
     const { fantasyMovies } = useContext(MoviesContext);
 
     return (
         
         <>
-        <h1>My Fantasy Movies</h1>
+        <Header title={title} />
         {fantasyMovies.map(movie => (
  
         <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA

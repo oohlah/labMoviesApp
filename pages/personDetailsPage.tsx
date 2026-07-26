@@ -6,7 +6,7 @@ import Spinner from '../components/spinner';
 import PersonDetailsCard from "../components/personDetailsCard";
 import { PersonMovieCredits, PersonDetails} from "../types/interfaces";
 import PersonMovieCreditsSection from '../components/personMovieCredits';
-
+import Header from "../components/headerMovieList";
 
 const PersonDetailsPage: React.FC = () => {
 
@@ -43,6 +43,8 @@ const PersonDetailsPage: React.FC = () => {
   
   return (
   <>
+
+    <Header title={person!.name}/>
     <PersonDetailsCard person={person!} />
 
 

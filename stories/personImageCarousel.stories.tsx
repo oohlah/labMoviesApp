@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ImageCarousel from "../components/personImageCarousel";
-import SampleMovie from "./sampleData";
 import { MemoryRouter } from "react-router";
 import MoviesContextProvider from "../contexts/moviesContext";
 import { QueryClientProvider, QueryClient } from "react-query";
