@@ -148,6 +148,16 @@ export interface MovieCredits {
   popularity: number;
 }
 
+export interface PersonList {
+  results: PersonDetails[];
+}
+
+export interface FantasyCastMember {
+  personId: number;
+  actorName: string;
+  characterName: string;
+}
+
  export interface FantasyMovie {
   id: number;
   title: string;
@@ -156,6 +166,8 @@ export interface MovieCredits {
   release_date: string;
   runtime: number;
   production_countries: string[];
+  cast: FantasyCastMember[];
+
 
 }
 
