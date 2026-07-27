@@ -51,6 +51,16 @@ const FantasyMovieCard: React.FC<FantasyMovieCardTemp> = ({movie}) => {
             </Typography>
           </Grid>
         </Grid>
+
+         <Typography variant="h6" component="p">
+        Cast:
+      </Typography>
+
+     {movie.cast.map((actor) => (
+       <Typography key={actor.personId} variant="body1">
+       {actor.actorName}
+       </Typography>
+      ))}
       </CardContent>
       <CardActions disableSpacing>
          {/* <Link to={`/movies/${movie.id}`}> */}
