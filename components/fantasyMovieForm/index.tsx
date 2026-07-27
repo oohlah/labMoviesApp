@@ -1,13 +1,12 @@
-import React, { useContext,  useState, ChangeEvent } from "react";
+import React, { useContext,  useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { GenreData } from "../../types/interfaces";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
-import { FantasyMovie } from "../../types/interfaces";
+import type { FantasyMovie, PersonList, GenreData} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
 import countries from "./countriesList";
 import FormControl from "@mui/material/FormControl";
@@ -19,6 +18,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import { SearchPeople } from "../../api/tmdb-api";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -29,7 +30,8 @@ const FantasyMovieForm: React.FC = () => {
           genres: [],
           release_date: "",
           runtime: 0,
-          production_countries: []
+          production_countries: [],
+          actor: [],
         }
       };
 
@@ -41,10 +43,21 @@ const FantasyMovieForm: React.FC = () => {
  const navigate = useNavigate();
 const context = useContext(MoviesContext);
  const [open, setOpen] = useState(false);
+ const [searchWord, setSearchWord] = useState("");
 
-  const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+  const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
 
-    
+//  const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", "Tom Hanks"],
+//   () => SearchPeople("Tom Hanks")
+// );
+
+ const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", searchWord],
+  () => SearchPeople(searchWord),
+  {
+    enabled: searchWord.length > 1,
+  }
+);
+
  const handleSnackClose = () => {
         setOpen(false);
         navigate("/movies/favourites");
@@ -56,13 +69,16 @@ const context = useContext(MoviesContext);
                 setOpen(true);
              };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-  if (isError) {
-    return <h1>{(error as Error).message}</h1>;
+        if (genreLoading) {
+         return <Spinner />;
+          }
+  if (genreError) {
+    return <h1>{(genreErrorMessage as Error).message}</h1>;
   }
    
+      if (personError) {
+    return <h1>{(personErrorMessage as Error).message}</h1>;
+  }
     
       return (
         <Box component="div" sx={styles.root}>
@@ -178,6 +194,7 @@ const context = useContext(MoviesContext);
             render={({ field: { onChange, value } }) => (
           <FormControl sx={{ width: "40ch", marginTop: 2, display: "flex" }}>
           <InputLabel id="genre-label">Genre</InputLabel>
+        
         <Select
             labelId="genre-label"
             id="genre-select"
@@ -185,7 +202,7 @@ const context = useContext(MoviesContext);
             value={value}
             onChange={onChange}
         >
-            {data?.genres.map((genre) => {
+            {genreData?.genres.map((genre) => {
         return (
           <MenuItem key={genre.id} value={genre.id}>
             {genre.name}
@@ -194,11 +211,65 @@ const context = useContext(MoviesContext);
       })}
 
     </Select>
-      </FormControl>
+  </FormControl>
+)}
+/>
+{/* <Controller
+  name="cast"
+  control={control}
+  defaultValue={[]}
+  render={({ field }) => (
+    <Autocomplete
+  multiple
+  options={personData?.results ?? []}
+  getOptionLabel={(option) => option.name}
+  inputValue={searchWord}
+  onInputChange={(_, value) => {
+    console.log(value);
+    setSearchWord(value);
+  }}
+  renderInput={(params) => (
+    <TextField {...params} label="Cast" />
+  )}
+/>
+  )}
+/> */}
+
+<Controller
+  name="cast"
+  control={control}
+  defaultValue={[]}
+  render={({ field }) => (
+    <Autocomplete
+      multiple
+      options={personData?.results ?? []}
+      getOptionLabel={(option) => option.name}
+
+      onChange={(_, people) => {
+
+        const castMembers = people.map(person => ({
+          personId: person.id,
+          actorName: person.name,
+          characterName: ""
+        }));
+
+        field.onChange(castMembers);
+      }}
+
+      inputValue={searchWord}
+
+      onInputChange={(_, value) => {
+        setSearchWord(value);
+      }}
+
+      renderInput={(params) => (
+        <TextField {...params} label="Cast" />
       )}
     />
+  )}
+/>
 
-
+{/* UseFieldArray for dynamic character name fields! */}
 
           <Controller
             name="production_countries"
@@ -214,13 +285,11 @@ const context = useContext(MoviesContext);
             value={value}
             onChange={onChange}
         >
-            {countries.map((country) => {
-        return (
-          <MenuItem value={country}>
-            {country}
+           {countries.map((country) => (
+          <MenuItem key={country} value={country}>
+         {country}
           </MenuItem>
-        );
-      })}
+        ))}
 
     </Select>
       </FormControl>
