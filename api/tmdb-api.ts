@@ -106,6 +106,18 @@ export const getPersonDetails = async (id: string | number) => {
   return response.json();
 };
 
+export const SearchPeople = async (query: string) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/search/person?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${query}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to search people");
+  }
+
+  return response.json();
+};
+
 export const getPersonMovieCredits = async (person_id: string | number) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/person/${person_id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
