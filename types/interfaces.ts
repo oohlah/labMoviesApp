@@ -155,8 +155,10 @@ export interface PersonList {
 export interface FantasyCastMember {
   personId: number;
   actorName: string;
-  characterName: string;
+  characterName?: string;
+  description?: string;
 }
+
 
  export interface FantasyMovie {
   id: number;
@@ -167,7 +169,7 @@ export interface FantasyCastMember {
   runtime: number;
   production_countries: string[];
   cast: FantasyCastMember[];
-
+  
 
 }
 
