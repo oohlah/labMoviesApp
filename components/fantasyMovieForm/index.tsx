@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
 import type { FantasyMovie, PersonList, GenreData} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchPeople } from "../../api/tmdb-api";
 import Autocomplete from "@mui/material/Autocomplete";
 
+
 const FantasyMovieForm: React.FC = () => {
 
      const defaultValues = {
@@ -31,7 +32,8 @@ const FantasyMovieForm: React.FC = () => {
           release_date: "",
           runtime: 0,
           production_countries: [],
-          actor: [],
+          cast: [],
+          
         }
       };
 
@@ -44,12 +46,15 @@ const FantasyMovieForm: React.FC = () => {
 const context = useContext(MoviesContext);
  const [open, setOpen] = useState(false);
  const [searchWord, setSearchWord] = useState("");
+//  let castMembers: FantasyCastMember[]= [];
 
+//manage cast array, replace cast array with updated fields
+ const { fields, replace} = useFieldArray({
+  control,
+  name: "cast",
+});
   const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
 
-//  const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", "Tom Hanks"],
-//   () => SearchPeople("Tom Hanks")
-// );
 
  const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", searchWord],
   () => SearchPeople(searchWord),
@@ -214,26 +219,6 @@ const context = useContext(MoviesContext);
   </FormControl>
 )}
 />
-{/* <Controller
-  name="cast"
-  control={control}
-  defaultValue={[]}
-  render={({ field }) => (
-    <Autocomplete
-  multiple
-  options={personData?.results ?? []}
-  getOptionLabel={(option) => option.name}
-  inputValue={searchWord}
-  onInputChange={(_, value) => {
-    console.log(value);
-    setSearchWord(value);
-  }}
-  renderInput={(params) => (
-    <TextField {...params} label="Cast" />
-  )}
-/>
-  )}
-/> */}
 
 <Controller
   name="cast"
@@ -247,13 +232,13 @@ const context = useContext(MoviesContext);
 
       onChange={(_, people) => {
 
-        const castMembers = people.map(person => ({
+        replace(people.map(person => ({
           personId: person.id,
           actorName: person.name,
-          characterName: ""
-        }));
+          characterName: "",
+          description: "",
+        })));
 
-        field.onChange(castMembers);
       }}
 
       inputValue={searchWord}
@@ -269,7 +254,38 @@ const context = useContext(MoviesContext);
   )}
 />
 
-{/* UseFieldArray for dynamic character name fields! */}
+{/* UseFieldArray for dynamic character name fields! */} 
+{/* // get dynamic inputs for each cast member */}
+ {fields.map((member, index) => {
+    return(
+   <Box key={member.id}>
+    <Typography>{member.actorName}</Typography>
+<Controller
+  name={`cast.${index}.characterName`}
+  control={control}
+  rules={{     required: "Character Name cannot be empty.",
+               minLength: { value: 1, message: "Please enter character name" },
+              }}
+  //display text, merge with cast array
+  render={({ field }) => (
+     <TextField {...field} label="Character Name" />
+  )}
+/>
+
+<Controller
+  name={`cast.${index}.description`}
+  control={control}
+  rules={{     required: "Description cannot be empty.",
+               minLength: { value: 5, message: "Please enter character description" },
+              }}
+ 
+  render={({ field }) => (
+     <TextField  multiline fullWidth minRows={3}{...field} label="Character Description" />
+        )}
+      />
+    </Box>
+  );
+})}
 
           <Controller
             name="production_countries"
