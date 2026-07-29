@@ -20,7 +20,9 @@ import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { SearchPeople } from "../../api/tmdb-api";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
+import dayjs from "dayjs";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -169,28 +171,27 @@ const context = useContext(MoviesContext);
               control={control}
               rules={{ required: "Release Date is required" }}
               defaultValue=""
-              render={({ field: { onChange, value } }) => (
+              render={({ field }) => (
                 
-                <TextField
-                  sx={{ width: "40ch" }}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  onChange={onChange}
-                  value={value}
-                  id="release_date"
-                  label="Release Date"
-                  autoFocus
-                />
-              )}
+            <DatePicker
+                label="Release Date"
+                value={field.value ? dayjs(field.value) : null}
+                onChange={(newValue) => {
+                field.onChange(
+                newValue ? newValue.format("YYYY-MM-DD") : ""
+                );
+                }}
+                renderInput={(params) => (
+                <TextField 
+                {...params}
+                sx={{ width: "40ch" }}
+                margin="normal"
             />
-            {errors.release_date && (
-              <Typography variant="h6" component="p">
-                {errors.release_date.message}
-              </Typography>
+                )}
+                />
             )}
-
-
+        />
+            
           <Controller
             name="genres"
             control={control}
