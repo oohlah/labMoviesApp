@@ -17,6 +17,9 @@ import FantasyMovieFormPage from "./pages/fantasyMovieFormPage";
 import LoginPage from "./pages/loginPage";
 import PrivateRoute from "./components/component_routes/private_route";
 import SignupPage from "./pages/signupPage";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +44,7 @@ const App = () => {
         </li>
       </ul>
        <SiteHeader /> 
+         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <MoviesContextProvider>
       <Routes>
         <Route path="/signupPage" element={<SignupPage />} />
@@ -57,6 +61,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       </MoviesContextProvider> 
+       </LocalizationProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
 
