@@ -169,6 +169,7 @@ export interface FantasyCastMember {
   runtime: number;
   production_countries: string[];
   cast: FantasyCastMember[];
+  poster_path: string;
   
 
 }

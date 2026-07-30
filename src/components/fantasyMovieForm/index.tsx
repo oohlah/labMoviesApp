@@ -23,8 +23,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
+import Input from "@mui/material/Input";
 
 const FantasyMovieForm: React.FC = () => {
+
+
 
      const defaultValues = {
         defaultValues: {
@@ -35,6 +38,7 @@ const FantasyMovieForm: React.FC = () => {
           runtime: 0,
           production_countries: [],
           cast: [],
+          poster_path: "",
           
         }
       };
@@ -55,6 +59,23 @@ const context = useContext(MoviesContext);
   control,
   name: "cast",
 });
+
+const [selectedFile, setSelectedFile] = useState(null);
+
+const imageSelectedHandler = async (
+      event: React.ChangeEvent<HTMLInputElement>
+     ) => {
+       const selectedFile = event.target.files?.[0];
+
+        if (!selectedFile) return;
+
+        console.log(selectedFile);
+     }
+
+const fileUploadHandler = async() =>{
+
+}
+
   const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
 
 
@@ -288,6 +309,38 @@ const context = useContext(MoviesContext);
   );
 })}
 
+
+<Controller
+  name="poster_path"
+  control={control}
+  defaultValue=""
+  render={({ field }) => (
+    <Box
+       sx={{
+       display: "flex",
+       alignItems: "center",
+        gap: 2,
+        mt: 2,
+        }}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const file = e.target.files?.[0];
+            console.log(file);
+            console.log(e.target);
+           
+          }}
+        />
+         <Button onclick={fileUploadHandler}
+        variant="contained"
+        component="label"
+      >
+        Upload Movie Poster
+      </Button>
+    </Box>
+  )}
+/>
           <Controller
             name="production_countries"
             control={control}
@@ -332,6 +385,10 @@ const context = useContext(MoviesContext);
                     title: "",
                     overview: "",
                     release_date: "",
+                    production_countries: [],
+                    cast: [],
+
+
                   });
                 }}
               >
