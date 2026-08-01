@@ -9,12 +9,19 @@ import CardMedia from "@mui/material/CardMedia";
 import img from '../../images/film-poster-placeholder.png';
 import {supabase} from "../../lib/supbase";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
+import { Link } from "react-router-dom";
 
 const styles = {
   card: { maxWidth: 345 },
   media: { height: 500 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
+  },
+  link: {
+      color: "#1976d2",
+      textDecoration: "underline",
+      fontWeight: 600,
+
   },
 };
 
@@ -76,22 +83,23 @@ console.log("Image URL:", data.publicUrl);
 
         {movie.cast.map((actor) => (
             <Box
-    key={actor.personId}
-    sx={{
-      mb: 2,
-      pb: 2,
-      borderBottom: "1px solid #e0e0e0",
-    }}
-  >
+    key={actor.personId}>
 
     <Typography variant="body2">
-        <strong>Name:</strong> {actor.actorName}
-    </Typography>
+  <strong>Name:</strong>{" "}
+  <Link 
+    style={styles.link}
+    to={`/person/${actor.personId}`}
+  >
+    {actor.actorName}
+  </Link>
+</Typography>
      <Typography variant="body2">
         <strong>Character:</strong> {actor.characterName}
      </Typography>
         <Typography variant="body2">
-        <strong>Character:</strong> {actor.description}
+        <strong>Character Desciption:</strong> 
+        {actor.description}
     </Typography>
      </Box>
   ))}
