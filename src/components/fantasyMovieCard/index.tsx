@@ -9,7 +9,9 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import { FantasyMovie } from "../../types/interfaces"; 
-
+import CardMedia from "@mui/material/CardMedia";
+import img from '../../images/film-poster-placeholder.png';
+import {supabase} from "../../lib/supbase";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -25,6 +27,13 @@ interface FantasyMovieCardTemp {
 
 const FantasyMovieCard: React.FC<FantasyMovieCardTemp> = ({movie}) => {
  
+    console.log("MOVIE OBJECT", movie);
+    
+const { data } = supabase.storage
+  .from("test_bucket")
+  .getPublicUrl(`${movie.poster_path}`);
+
+console.log("Image URL:", data.publicUrl);
 
   return (
     <Card sx={styles.card}>
@@ -35,6 +44,12 @@ const FantasyMovieCard: React.FC<FantasyMovieCardTemp> = ({movie}) => {
           </Typography>
         }
       />
+
+      <CardMedia
+              sx={styles.media}
+              image={movie.poster_path? data.publicUrl : img}
+              
+            />
      
       <CardContent>
         <Grid container>
