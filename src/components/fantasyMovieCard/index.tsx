@@ -1,17 +1,14 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
 import { FantasyMovie } from "../../types/interfaces"; 
 import CardMedia from "@mui/material/CardMedia";
 import img from '../../images/film-poster-placeholder.png';
 import {supabase} from "../../lib/supbase";
+import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -28,7 +25,7 @@ interface FantasyMovieCardTemp {
 const FantasyMovieCard: React.FC<FantasyMovieCardTemp> = ({movie}) => {
  
     console.log("MOVIE OBJECT", movie);
-    
+
 const { data } = supabase.storage
   .from("test_bucket")
   .getPublicUrl(`${movie.poster_path}`);
@@ -52,38 +49,59 @@ console.log("Image URL:", data.publicUrl);
             />
      
       <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
+
+<Typography variant="body1">
+        <strong>Overview:</strong>{" "}
+         </Typography>
+    <Typography variant="body2">
+        {movie.overview}
+    </Typography>
+    <Typography variant="body1">
+        <strong>Production Countries:</strong>{" "}
+         </Typography>
+    <Typography variant="body2">
+        {movie.production_countries.join(", ")}
+    </Typography>
+
+    <Typography variant="body1">
+        <strong>Genres:</strong> 
+    </Typography>
+     <Typography variant="body2">
+        {movie.genres.join(", ")}
+    </Typography>
+
+    <Typography variant="body1">
+        <strong>Cast:</strong>
+    </Typography>
+
+        {movie.cast.map((actor) => (
+            <Box
+    key={actor.personId}
+    sx={{
+      mb: 2,
+      pb: 2,
+      borderBottom: "1px solid #e0e0e0",
+    }}
+  >
+
+    <Typography variant="body2">
+        <strong>Name:</strong> {actor.actorName}
+    </Typography>
+     <Typography variant="body2">
+        <strong>Character:</strong> {actor.characterName}
+     </Typography>
+        <Typography variant="body2">
+        <strong>Character:</strong> {actor.description}
+    </Typography>
+     </Box>
+  ))}
+   <Typography variant="body1">
+       <CalendarIcon fontSize="small" sx={{pl: 1,}} />  <strong> Release Date: </strong>
               {movie.release_date}
+              
             </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.production_countries}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
-
-         <Typography variant="h6" component="p">
-        Cast:
-      </Typography>
-
-     {movie.cast.map((actor) => (
-       <Typography key={actor.personId} variant="body1">
-       {actor.actorName}
-       </Typography>
-      ))}
-      </CardContent>
-      <CardActions disableSpacing>
-         {/* <Link to={`/movies/${movie.id}`}> */}
-        <Button variant="outlined" size="medium" color="primary">
-        More info ....
-        </Button>
-        {/* </Link> */}
-      </CardActions>
+</CardContent>
+    
     </Card>
   );
 }
