@@ -23,7 +23,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
-import Input from "@mui/material/Input";
+import {supabase} from "../../lib/supbase";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -60,7 +60,8 @@ const context = useContext(MoviesContext);
   name: "cast",
 });
 
-const [selectedFile, setSelectedFile] = useState(null);
+const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
 
 const imageSelectedHandler = async (
       event: React.ChangeEvent<HTMLInputElement>
@@ -69,10 +70,27 @@ const imageSelectedHandler = async (
 
         if (!selectedFile) return;
 
-        console.log(selectedFile);
+        setSelectedFile(selectedFile);
      }
 
 const fileUploadHandler = async() =>{
+
+     if (!selectedFile) {
+        console.log("Not Selectd File");
+        return;}
+
+const filePath = `${Date.now()}-${selectedFile?.name}`;
+
+
+    const { data, error } = await supabase.storage
+  .from('test_bucket')
+  .upload(filePath, selectedFile)
+
+  if (error) {
+    console.error(error);
+    return;
+}
+console.log("Image File:", data);
 
 }
 
@@ -325,19 +343,11 @@ const fileUploadHandler = async() =>{
         <input
           type="file"
           accept="image/*"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const file = e.target.files?.[0];
-            console.log(file);
-            console.log(e.target);
-           
-          }}
-        />
-         <Button onclick={fileUploadHandler}
-        variant="contained"
-        component="label"
-      >
-        Upload Movie Poster
-      </Button>
+           onChange={imageSelectedHandler} />
+         <Button onClick={fileUploadHandler}
+                 variant="contained">
+                  Upload Movie Poster
+               </Button>
     </Box>
   )}
 />
