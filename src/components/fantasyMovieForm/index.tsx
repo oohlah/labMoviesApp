@@ -251,7 +251,7 @@ return data.path;
         >
             {genreData?.genres.map((genre) => {
         return (
-          <MenuItem key={genre.id} value={genre.id}>
+          <MenuItem key={genre.id} value={genre.name}>
             {genre.name}
           </MenuItem>
         );
