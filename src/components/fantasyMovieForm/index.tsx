@@ -91,6 +91,8 @@ const filePath = `${Date.now()}-${selectedFile?.name}`;
     return;
 }
 console.log("Image File:", data);
+return data.path;
+
 
 }
 
@@ -332,7 +334,7 @@ console.log("Image File:", data);
   name="poster_path"
   control={control}
   defaultValue=""
-  render={({ field }) => (
+    render={({ field: { onChange } }) => (
     <Box
        sx={{
        display: "flex",
@@ -341,10 +343,19 @@ console.log("Image File:", data);
         mt: 2,
         }}>
         <input
-          type="file"
-          accept="image/*"
-           onChange={imageSelectedHandler} />
-         <Button onClick={fileUploadHandler}
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          imageSelectedHandler(e);
+        }}
+      />
+        <Button
+        onClick={async () => {
+          const uploadedPath = await fileUploadHandler();
+          if (uploadedPath) {
+            onChange(uploadedPath);  
+          }
+        }}
                  variant="contained">
                   Upload Movie Poster
                </Button>
@@ -397,6 +408,7 @@ console.log("Image File:", data);
                     release_date: "",
                     production_countries: [],
                     cast: [],
+                    poster_path: "",
 
 
                   });
