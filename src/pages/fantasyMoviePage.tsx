@@ -12,7 +12,7 @@ const FantasyMoviesPage: React.FC = () => {
   
     const title = "Fantasy Movies";
    
-      const { data: fantasyMovies, isLoading, error } = useQuery(
+const { data: fantasyMovies, isLoading, error } = useQuery(
     "fantasyMovies",
     getFantasyMovies
   );
@@ -31,7 +31,7 @@ const FantasyMoviesPage: React.FC = () => {
         <>
         <Header title={title} />
 
-        <p> Create a Fantasy Movie</p>
+        <h2>Create a Fantasy Movie</h2>
          <Link to={`/fantasyMovieForm`}>
         <Button
         variant="contained"
@@ -41,6 +41,8 @@ const FantasyMoviesPage: React.FC = () => {
         Add Movie
        </Button>
         </Link>
+
+        <h2>All Fantasy Movies</h2>
         {fantasyMovies?.map(movie => (
  
         <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
