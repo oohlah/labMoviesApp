@@ -24,10 +24,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
 import {supabase} from "../../lib/supbase";
+import {addFantasyMovie} from "../../api/supabase-api";
 
 const FantasyMovieForm: React.FC = () => {
-
-
 
      const defaultValues = {
         defaultValues: {
@@ -96,6 +95,7 @@ return data.path;
 
 }
 
+
   const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
 
 
@@ -111,11 +111,27 @@ return data.path;
         navigate("/movies/favourites");
        };
 
-       const onSubmit: SubmitHandler<FantasyMovie> = (fantasyMovie) => {
-               fantasyMovie.id = Date.now(); //quick id for now
-               context.addFantasyMovie(fantasyMovie);
-                setOpen(true);
-             };
+       //OLD HANDLER ADD FANTASY MOVIE TO CONTEXT
+
+    //    const onSubmit: SubmitHandler<FantasyMovie> = (fantasyMovie) => {
+    //            fantasyMovie.id = Date.now(); //quick id for now
+    //            context.addFantasyMovie(fantasyMovie);
+    //             setOpen(true);
+    //          };
+
+    // NEW - ADD fantasy movie to supabase
+    const onSubmit: SubmitHandler<FantasyMovie> = async (fantasyMovie) => {
+
+  try {
+    await addFantasyMovie(fantasyMovie);
+
+    setOpen(true);
+
+  } catch(error) {
+    console.error("Failed to add fantasy movie:", error);
+  }
+
+};
 
         if (genreLoading) {
          return <Spinner />;
