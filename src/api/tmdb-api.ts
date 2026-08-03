@@ -94,40 +94,50 @@ export const getMovieCredits = (id: string | number) => {
     });
 };
 
-export const getPersonDetails = async (id: string | number) => {
-  const response = await fetch(
+export const getPersonDetails = (id: string | number) => {
+  return fetch(
     `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to get person details");
-  }
-
-  return response.json();
+  )
+  .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to find person details. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
-export const SearchPeople = async (query: string) => {
-  const response = await fetch(
+
+export const SearchPeople = (query: string) => {
+  return fetch(
     `https://api.themoviedb.org/3/search/person?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${query}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to search people");
-  }
-
-  return response.json();
+   )
+  .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to find person details. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
-export const getPersonMovieCredits = async (person_id: string | number) => {
-  const response = await fetch(
+export const getPersonMovieCredits = (person_id: string | number) => {
+  return fetch(
     `https://api.themoviedb.org/3/person/${person_id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to get person movie credits");
-  }
-
-  return response.json();
+   )
+  .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to get person movie credits. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getPopularMovies = () => {
