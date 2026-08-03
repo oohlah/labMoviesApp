@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useContext}from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import FantasyMovieList from "../components/fantasyMovieCard";
 import Header from "../components/headerMovieList";
 import AddIcon from "@mui/icons-material/Add";
-import { getFantasyMovies} from "../api/supabase-api";
+import { getFantasyMovies, getUserFantasyMovies} from "../api/supabase-api";
 import { useQuery } from "react-query";
+import { AuthContext } from "../contexts/authContext";
+import type { FantasyMovie} from "../types/interfaces";
 
 
 const FantasyMoviesPage: React.FC = () => {
   
     const title = "Fantasy Movies";
    
-const { data: fantasyMovies, isLoading, error } = useQuery(
+    //GET logged in user info from context
+     const { user} = useContext(AuthContext);
+
+    const { data: userFantasyMovies, isLoading: userMoviesLoading, error: userMoviesError 
+} = useQuery<FantasyMovie[]>(["userFantasyMovies", user?.id],
+  () => getUserFantasyMovies(user!.id),
+  {
+    enabled: !!user?.id
+  }
+);
+
+const { data: fantasyMovies, isLoading: moviesLoading, error: movieserror } = useQuery<FantasyMovie[]>(
     "fantasyMovies",
     getFantasyMovies
   );
 
-  if (isLoading) {
+  if (userMoviesLoading || moviesLoading) {
     return <p>Loading...</p>;
   }
 
-  if (error) {
+  if (movieserror || userMoviesError ) {
     return <p>Error loading fantasy movies</p>;
   }
 
@@ -42,9 +55,16 @@ const { data: fantasyMovies, isLoading, error } = useQuery(
        </Button>
         </Link>
 
+        <h2>Your Fantasy Movies</h2>
+        {userFantasyMovies?.map(movie => (
+ 
+ 
+        <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
+        ))};
         <h2>All Fantasy Movies</h2>
         {fantasyMovies?.map(movie => (
  
+
         <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
         ))};
         

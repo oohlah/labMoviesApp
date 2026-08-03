@@ -63,7 +63,6 @@ const { user } = useContext(AuthContext);
 
 const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-
 const imageSelectedHandler = async (
       event: React.ChangeEvent<HTMLInputElement>
      ) => {
@@ -72,7 +71,7 @@ const imageSelectedHandler = async (
         if (!selectedFile) return;
 
         setSelectedFile(selectedFile);
-     }
+    
 
 const fileUploadHandler = async() =>{
 
