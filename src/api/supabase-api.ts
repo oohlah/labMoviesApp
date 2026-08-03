@@ -31,11 +31,11 @@ export const addFantasyMovie = async (fantasyMovie: FantasyMovie) => {
   return data;
 };
 
-export const getUserFantasyMovies =async (id: number) => {
+export const getUserFantasyMovies =async (id: string) => {
   const { data, error } = await supabase
     .from("fantasy_movies")
     .select("*")
-    .eq("user_id", id);
+    .eq("users_id", id);
 
   if (error) throw error;
 
