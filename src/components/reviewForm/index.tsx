@@ -5,23 +5,26 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { MoviesContext } from "../../contexts/moviesContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles";
 import ratings from "./ratingCategories";
 import { BaseMovieProps, Review } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { addMovieReview } from "../../api/supabase-api";
+import { AuthContext } from "../../contexts/authContext";
+
 
 
 const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
+
+ 
     const defaultValues = {
         defaultValues: {
           author: "",
-          review: "",
-          agree: false,
           rating: 3,
-          movieId: 0,
+          content: "",
+          movie_id: 0,
         }
       };
     
@@ -33,9 +36,14 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
       } = useForm<Review>(defaultValues);
     
       const navigate = useNavigate();
-      const context = useContext(MoviesContext);
+      // const context = useContext(MoviesContext);
       const [rating, setRating] = useState(3);
       const [open, setOpen] = useState(false);
+
+      const { user } = useContext(AuthContext);
+    
+
+      console.log("USER:", user);
     
       const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
         setRating(Number(event.target.value));
@@ -47,11 +55,33 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
        };
 
 
-      const onSubmit: SubmitHandler<Review> = (review) => {
-        review.movieId = movie.id;
-        review.rating = rating;
-        context.addReview(movie, review);
-         setOpen(true);
+      const onSubmit: SubmitHandler<Review> = async (review) => {
+
+          if (!user) {
+           console.error("No authenticated user");
+            return;
+            }
+
+             console.log("Auth user:", user);
+
+             console.log("INSERTING REVIEW:", review);
+          try {
+            const reviewToInsert = {
+           ...review,
+           movie_id: movie.id,
+           users_id: user.id,
+           };
+
+       console.log("Review being inserted:", reviewToInsert);
+
+       const data = await addMovieReview(reviewToInsert);
+
+       console.log("Supabase returned:", data);
+
+        setOpen(true);
+      } catch (error) {
+       console.error("Failed to add movie review:", error);
+        }
       };
     
       return (

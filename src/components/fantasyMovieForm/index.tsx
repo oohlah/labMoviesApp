@@ -78,7 +78,7 @@ const fileUploadHandler = async() =>{
      if (!selectedFile) {
         console.log("Not Selectd File");
         return;
-    };
+    }
 
 const filePath = `${Date.now()}-${selectedFile?.name}`;
 
