@@ -42,20 +42,17 @@ export const getUserFantasyMovies =async (id: string) => {
   return data;
 };
 
-//TEST CODE
+//REVIEWS
 
-//calling it on the page
+export const addMovieReview = async (review: Review) => {
 
-// const [fantasyMovie, setFantasyMovie] = useState([]);
+  const { error } = await supabase
+    .from("movie_reviews")
+    .insert([
+      review
+    ]);
 
-//with useEffect - temp will change
-
-// useEffect(() => {
-
-//     getFantasyMovies();
-// }), []); // get all No dependecies
-
-// useEffect(() => {
-
-//     getFantasyMovies();
-// }), [id]); // get all No dependecies // need to get the user id from the params or superbase??
+  if (error) {
+    throw error;
+  }
+};
