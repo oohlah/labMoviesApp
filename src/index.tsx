@@ -35,15 +35,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/movies/favourites">Favourites</Link>
-        </li>
-      </ul>
-       <SiteHeader /> 
+            <SiteHeader /> 
          <LocalizationProvider dateAdapter={AdapterDayjs}>
            <AuthContextProvider>
         <MoviesContextProvider>
