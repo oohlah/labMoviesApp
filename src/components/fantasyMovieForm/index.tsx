@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
-import { MoviesContext } from "../../contexts/moviesContext";
+import { AuthContext } from "../../contexts/authContext";
 import type { FantasyMovie, PersonList, GenreData} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
 import countries from "./countriesList";
@@ -25,6 +25,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
 import {supabase} from "../../lib/supbase";
 import {addFantasyMovie} from "../../api/supabase-api";
+
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -46,9 +47,10 @@ const FantasyMovieForm: React.FC = () => {
 
   const { control, formState: { errors }, handleSubmit, reset, } = useForm<FantasyMovie>(defaultValues);
 
+const { user } = useContext(AuthContext);
 
  const navigate = useNavigate();
-const context = useContext(MoviesContext);
+
  const [open, setOpen] = useState(false);
  const [searchWord, setSearchWord] = useState("");
 //  let castMembers: FantasyCastMember[]= [];
@@ -111,19 +113,21 @@ return data.path;
         navigate("/movies/favourites");
        };
 
-       //OLD HANDLER ADD FANTASY MOVIE TO CONTEXT
-
-    //    const onSubmit: SubmitHandler<FantasyMovie> = (fantasyMovie) => {
-    //            fantasyMovie.id = Date.now(); //quick id for now
-    //            context.addFantasyMovie(fantasyMovie);
-    //             setOpen(true);
-    //          };
+       
 
     // NEW - ADD fantasy movie to supabase
     const onSubmit: SubmitHandler<FantasyMovie> = async (fantasyMovie) => {
 
+    if (!user) {
+    console.error("No authenticated user");
+    return;
+  }
+
   try {
-    await addFantasyMovie(fantasyMovie);
+    await addFantasyMovie({
+      ...fantasyMovie,
+      users_id: user.id,
+    });
 
     setOpen(true);
 
