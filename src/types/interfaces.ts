@@ -1,3 +1,6 @@
+import type { User } from "@supabase/supabase-js"; // import user from supabase
+
+
 export interface BaseMovieProps {
     title: string;
     budget: number;
@@ -162,6 +165,7 @@ export interface FantasyCastMember {
 
  export interface FantasyMovie {
   id: number;
+  users_id?: string;
   title: string;
   overview: string;
   genres: string[];
@@ -170,6 +174,7 @@ export interface FantasyCastMember {
   production_countries: string[];
   cast: FantasyCastMember[];
   poster_path?: string;
+
   
 
 }
@@ -186,3 +191,11 @@ export interface FantasyCastMember {
     value: number
   ) => void;
   }
+
+
+  export interface Auth {
+   user: User | null;
+   loading: boolean;
+  }
+
+
