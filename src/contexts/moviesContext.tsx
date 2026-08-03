@@ -1,34 +1,30 @@
 import React, { useState, useCallback } from "react";
-import { BaseMovieProps, Review, FantasyMovie } from "../types/interfaces";
+import { BaseMovieProps, FantasyMovie } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
     addToFavourites: ((movie: BaseMovieProps) => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
-    addReview: ((movie: BaseMovieProps, review: Review) => void);
     mustWatch: number[];
     addToMustWatch: ((movie: BaseMovieProps) => void);
-    fantasyMovies: FantasyMovie[]; 
-    addFantasyMovie: ((fantasyMovie: FantasyMovie) => void);
+  
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
     addToFavourites: () => {},
     removeFromFavourites: () => {},
-    addReview: (movie, review) => { movie.id, review}, 
     mustWatch: [],
     addToMustWatch: () => {},
-    fantasyMovies: [],
-    addFantasyMovie: (fantasyMovie) => { fantasyMovie}, 
-};
+}
+   
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const [myReviews, setMyReviews] = useState<Review[]>( [] );
+
     const [favourites, setFavourites] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
-    const [myFantasyMovies, setMyFantasyMovies] = useState<FantasyMovie[]>( [] );
+
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -44,9 +40,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     }, []);
 
 
-    const addReview = (movie:BaseMovieProps, review: Review) => {   // NEW
-        setMyReviews( {...myReviews, [movie.id]: review } )
-      };
+
 
   const addToMustWatch = useCallback((movie: BaseMovieProps) => {
         setMustWatch((prevMustWatch) => {
@@ -61,13 +55,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         });
     }, []);
 
-     const addFantasyMovie  = (fantasyMovie: FantasyMovie) => {
-    setMyFantasyMovies((myFantasyMovies) => [
-        ...myFantasyMovies,
-        fantasyMovie]);
-   };
 
- 
 
     return (
         <MoviesContext.Provider
@@ -75,11 +63,9 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 favourites,
                 addToFavourites,
                 removeFromFavourites,
-                addReview,
                 mustWatch,
                 addToMustWatch,
-                fantasyMovies: myFantasyMovies,
-                addFantasyMovie
+             
             }}
         >
             {children}
