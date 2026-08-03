@@ -19,7 +19,7 @@ import PrivateRoute from "./components/component_routes/private_route";
 import SignupPage from "./pages/signupPage";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import AuthContextProvider from "./contexts/authContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +45,7 @@ const App = () => {
       </ul>
        <SiteHeader /> 
          <LocalizationProvider dateAdapter={AdapterDayjs}>
+           <AuthContextProvider>
         <MoviesContextProvider>
       <Routes>
         <Route path="/signupPage" element={<SignupPage />} />
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       </MoviesContextProvider> 
+        </AuthContextProvider>
        </LocalizationProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
