@@ -72,12 +72,13 @@ const imageSelectedHandler = async (
 
         setSelectedFile(selectedFile);
     
-
+     };
 const fileUploadHandler = async() =>{
 
      if (!selectedFile) {
         console.log("Not Selectd File");
-        return;}
+        return;
+    };
 
 const filePath = `${Date.now()}-${selectedFile?.name}`;
 
