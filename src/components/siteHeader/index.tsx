@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import auth from "../../auth_service";
 
 const styles = {
     title: {
@@ -32,6 +33,7 @@ const styles = {
     { label: "Favorites", path: "/movies/favourites" },
     { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Fantasy Movies", path: "/fantasyMovies" },
+
   ];
 
   const handleMenuSelect = (pageURL: string) => {
@@ -41,6 +43,11 @@ const styles = {
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = async () => {
+  await auth.logout();
+  navigate("/loginPage");
+};
 
    return (
     <>
@@ -102,6 +109,15 @@ const styles = {
               ))}
             </>
           )}
+ 
+
+<Button
+  color="inherit"
+  onClick={handleLogout}
+>
+  Logout
+</Button>
+
         </Toolbar>
       </AppBar>
       <Offset />
