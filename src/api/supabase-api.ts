@@ -56,3 +56,21 @@ export const addMovieReview = async (review: Review) => {
     throw error;
   }
 };
+
+const STORAGE_BUCKET = "test_bucket";
+
+export const uploadPoster = async (file: File) => {
+
+      const filePath = `${Date.now()}-${file.name}`;
+
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(filePath, file);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.path;
+
+}

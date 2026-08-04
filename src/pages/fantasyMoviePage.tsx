@@ -1,14 +1,13 @@
 import React, { useContext}from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import FantasyMovieList from "../components/fantasyMovieCard";
 import Header from "../components/headerMovieList";
 import AddIcon from "@mui/icons-material/Add";
 import { getFantasyMovies, getUserFantasyMovies} from "../api/supabase-api";
 import { useQuery } from "react-query";
 import { AuthContext } from "../contexts/authContext";
 import type { FantasyMovie} from "../types/interfaces";
-
+import FantasyMovieCard from "../components/fantasyMovieCard";
 
 const FantasyMoviesPage: React.FC = () => {
   
@@ -54,21 +53,31 @@ const { data: fantasyMovies, isLoading: moviesLoading, error: movieserror } = us
         Add Movie
        </Button>
         </Link>
-
-        <h2>Your Fantasy Movies</h2>
-        {userFantasyMovies?.map(movie => (
- 
- 
-        <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
-        ))};
-        <h2>All Fantasy Movies</h2>
-        {fantasyMovies?.map(movie => (
- 
-
-        <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
-        ))};
         
-        </> 
+        <h2>Your Fantasy Movies</h2>
+        {/* {userFantasyMovies?.map(movie => (
+ 
+ 
+        <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
+        ))}; */}
+      
+        {userFantasyMovies?.map(movie => (
+        <FantasyMovieCard 
+         key={movie.id} 
+         movie={movie}
+            />
+         ))}
+
+
+        <h2>All Fantasy Movies</h2>
+
+        {fantasyMovies?.map(movie => (
+      <FantasyMovieCard 
+        key={movie.id} 
+        movie={movie}
+      />
+    ))}
+       </>
     )};
 
 export default FantasyMoviesPage;

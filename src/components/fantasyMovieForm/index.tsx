@@ -23,8 +23,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
-import {supabase} from "../../lib/supbase";
-import {addFantasyMovie} from "../../api/supabase-api";
+import {addFantasyMovie, uploadPoster} from "../../api/supabase-api";
 
 
 const FantasyMovieForm: React.FC = () => {
@@ -79,23 +78,14 @@ const fileUploadHandler = async() =>{
         console.log("Not Selectd File");
         return;
     }
+  try {
+    const uploadedPath = await uploadPoster(selectedFile);
+    return uploadedPath;
+  } catch (error) {
+    console.error("Failed to upload poster:", error);
+  }
+};
 
-const filePath = `${Date.now()}-${selectedFile?.name}`;
-
-
-    const { data, error } = await supabase.storage
-  .from('test_bucket')
-  .upload(filePath, selectedFile)
-
-  if (error) {
-    console.error(error);
-    return;
-}
-console.log("Image File:", data);
-return data.path;
-
-
-}
 
 
   const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
@@ -136,8 +126,9 @@ return data.path;
   }
 
 };
+ 
 
-        if (genreLoading) {
+  if (genreLoading) {
          return <Spinner />;
           }
   if (genreError) {
@@ -252,7 +243,7 @@ return data.path;
                 />
             )}
         />
-            
+           
           <Controller
             name="genres"
             control={control}
