@@ -23,8 +23,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
-import {addFantasyMovie, uploadPoster} from "../../api/supabase-api";
-
+import {addFantasyMovie} from "../../api/supabase-api";
+import PosterUpload from "../../components/posterUpload";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -59,33 +59,6 @@ const { user } = useContext(AuthContext);
   control,
   name: "cast",
 });
-
-const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-const imageSelectedHandler = async (
-      event: React.ChangeEvent<HTMLInputElement>
-     ) => {
-       const selectedFile = event.target.files?.[0];
-
-        if (!selectedFile) return;
-
-        setSelectedFile(selectedFile);
-    
-     };
-const fileUploadHandler = async() =>{
-
-     if (!selectedFile) {
-        console.log("Not Selectd File");
-        return;
-    }
-  try {
-    const uploadedPath = await uploadPoster(selectedFile);
-    return uploadedPath;
-  } catch (error) {
-    console.error("Failed to upload poster:", error);
-  }
-};
-
 
 
   const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
@@ -340,39 +313,9 @@ const fileUploadHandler = async() =>{
   );
 })}
 
+<PosterUpload control={control}/>
 
-<Controller
-  name="poster_path"
-  control={control}
-  defaultValue=""
-    render={({ field: { onChange } }) => (
-    <Box
-       sx={{
-       display: "flex",
-       alignItems: "center",
-        gap: 2,
-        mt: 2,
-        }}>
-        <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          imageSelectedHandler(e);
-        }}
-      />
-        <Button
-        onClick={async () => {
-          const uploadedPath = await fileUploadHandler();
-          if (uploadedPath) {
-            onChange(uploadedPath);  
-          }
-        }}
-                 variant="contained">
-                  Upload Movie Poster
-               </Button>
-    </Box>
-  )}
-/>
+
           <Controller
             name="production_countries"
             control={control}
