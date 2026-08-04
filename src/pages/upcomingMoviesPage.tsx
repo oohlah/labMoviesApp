@@ -5,13 +5,12 @@ import { getUpcomingMovies } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToPlaylist from "../components/cardIcons/addToPlaylist";
-import Pagination from "@mui/material/Pagination";
 import UsePagination from "../hooks/usePagination";
-import type { PaginationProp} from "../types/interfaces";
+import PaginationComponent from "../components/pagination";
 
 const UpcomingMovies: React.FC = () => {
 
-  const {page, handlePageChange}: PaginationProp = UsePagination();
+  const {page, handlePageChange}= UsePagination();
 
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(["upcoming", page], () => getUpcomingMovies(page),  { keepPreviousData: true });
       
@@ -45,15 +44,13 @@ const UpcomingMovies: React.FC = () => {
         
     />
 
-   <Pagination
-           count={data?.total_pages || 10}
-           color="primary" 
-           page={page} 
-           onChange={handlePageChange} />
-
+  
+ <PaginationComponent
+        count={data?.total_pages || 10}
+        page={page}
+        handlePageChange={handlePageChange}
+      />
 
 </>
-
-);
-};
+);};
 export default UpcomingMovies;
