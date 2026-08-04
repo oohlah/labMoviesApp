@@ -6,14 +6,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
 import { AuthContext } from "../../contexts/authContext";
-import type { FantasyMovie, PersonList, GenreData} from "../../types/interfaces";
+import type { FantasyMovie, PersonList} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
 import countries from "./countriesList";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { getGenres } from "../../api/tmdb-api";
+// import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
-import Spinner from '../spinner';
+// import Spinner from '../spinner';
 import InputLabel from "@mui/material/InputLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -25,6 +25,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
 import {addFantasyMovie} from "../../api/supabase-api";
 import PosterUpload from "../../components/posterUpload";
+import GenreSelector from "../../components/genreSelector";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -61,7 +62,6 @@ const { user } = useContext(AuthContext);
 });
 
 
-  const { data: genreData, error: genreErrorMessage, isLoading: genreLoading, isError: genreError } = useQuery<GenreData, Error>("genres", getGenres);
 
 
  const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", searchWord],
@@ -101,12 +101,6 @@ const { user } = useContext(AuthContext);
 };
  
 
-  if (genreLoading) {
-         return <Spinner />;
-          }
-  if (genreError) {
-    return <h1>{(genreErrorMessage as Error).message}</h1>;
-  }
    
       if (personError) {
     return <h1>{(personErrorMessage as Error).message}</h1>;
@@ -217,34 +211,8 @@ const { user } = useContext(AuthContext);
             )}
         />
            
-          <Controller
-            name="genres"
-            control={control}
-            rules={{ required: "Genre is required" }}
-            defaultValue={[]}
-            render={({ field: { onChange, value } }) => (
-          <FormControl sx={{ width: "40ch", marginTop: 2, display: "flex" }}>
-          <InputLabel id="genre-label">Genre</InputLabel>
-        
-        <Select
-            labelId="genre-label"
-            id="genre-select"
-            multiple={true}
-            value={value}
-            onChange={onChange}
-        >
-            {genreData?.genres.map((genre) => {
-        return (
-          <MenuItem key={genre.id} value={genre.name}>
-            {genre.name}
-          </MenuItem>
-        );
-      })}
-
-    </Select>
-  </FormControl>
-)}
-/>
+           <GenreSelector control={control}/>
+         
 
 <Controller
   name="cast"
