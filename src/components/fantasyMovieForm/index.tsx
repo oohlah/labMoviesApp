@@ -1,20 +1,13 @@
 import React, { useContext,  useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-// import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
 import { AuthContext } from "../../contexts/authContext";
 import type { FantasyMovie, PersonList} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
-// import countries from "./countriesList";
-// import FormControl from "@mui/material/FormControl";
-// import Select from "@mui/material/Select";
-// import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
-// import Spinner from '../spinner';
-// import InputLabel from "@mui/material/InputLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
@@ -285,31 +278,7 @@ const { user } = useContext(AuthContext);
 <PosterUpload control={control}/>
 
 <ProductionCountries control={control}/>
-{/* 
-          <Controller
-            name="production_countries"
-            control={control}
-            rules={{ required: "Production Countries are required" }}
-            defaultValue={[]}
-            render={({ field: { onChange, value } }) => (
-          <FormControl sx={{ width: "40ch", marginTop: 2, display: "flex" }}>
-          <InputLabel id="production-countries">Production Countries</InputLabel>
-        <Select
-            id="production-countries"
-            multiple={true}
-            value={value}
-            onChange={onChange}
-        >
-           {countries.map((country) => (
-          <MenuItem key={country} value={country}>
-         {country}
-          </MenuItem>
-        ))}
 
-    </Select>
-      </FormControl>
-      )}
-    /> */}
     
             <Box >
               <Button
