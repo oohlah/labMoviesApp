@@ -1,20 +1,20 @@
 import React, { useContext,  useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+// import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
 import { AuthContext } from "../../contexts/authContext";
 import type { FantasyMovie, PersonList} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
-import countries from "./countriesList";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+// import countries from "./countriesList";
+// import FormControl from "@mui/material/FormControl";
+// import Select from "@mui/material/Select";
 // import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 // import Spinner from '../spinner';
-import InputLabel from "@mui/material/InputLabel";
+// import InputLabel from "@mui/material/InputLabel";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ import dayjs from "dayjs";
 import {addFantasyMovie} from "../../api/supabase-api";
 import PosterUpload from "../../components/posterUpload";
 import GenreSelector from "../../components/genreSelector";
+import ProductionCountries from "../../components/production_countries"
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -283,7 +284,8 @@ const { user } = useContext(AuthContext);
 
 <PosterUpload control={control}/>
 
-
+<ProductionCountries control={control}/>
+{/* 
           <Controller
             name="production_countries"
             control={control}
@@ -307,7 +309,7 @@ const { user } = useContext(AuthContext);
     </Select>
       </FormControl>
       )}
-    />
+    /> */}
     
             <Box >
               <Button
