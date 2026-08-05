@@ -31,7 +31,7 @@ const styles = {
 
 interface MovieImageCarouselProps {
 movies: BaseMovieProps[]; 
-action?: (m: BaseMovieProps) => React.ReactNode;
+action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 const MovieImageCarousel: React.FC <MovieImageCarouselProps>= ({movies, action}) => {
