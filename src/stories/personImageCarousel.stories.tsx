@@ -3,6 +3,8 @@ import ImageCarousel from "../components/personImageCarousel";
 import { MemoryRouter } from "react-router";
 import MoviesContextProvider from "../contexts/moviesContext";
 import { QueryClientProvider, QueryClient } from "react-query";
+import castData from './castData';
+
 
 
 const queryClient = new QueryClient();
@@ -27,7 +29,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
     args: {
-  people: People,
+   people: castData,
 },
 };
 Basic.storyName = "Default";
