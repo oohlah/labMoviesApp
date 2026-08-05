@@ -31,9 +31,10 @@ const styles = {
 
 interface MovieImageCarouselProps {
 movies: BaseMovieProps[]; 
+action?: (m: BaseMovieProps) => React.ReactNode;
 }
 
-const MovieImageCarousel: React.FC <MovieImageCarouselProps>= ({movies}) => {
+const MovieImageCarousel: React.FC <MovieImageCarouselProps>= ({movies, action}) => {
   
    const [emblaRef, emblaApi] = useEmblaCarousel({
   loop: false,
@@ -53,7 +54,7 @@ const MovieImageCarousel: React.FC <MovieImageCarouselProps>= ({movies}) => {
             {movies.map((movie) => (
               <div key={movie.id} style={styles.emblaSlide}>
                 {/* // temp no action */}
-                <MovieCard movie={movie} action={() => {}}/> 
+                <MovieCard movie={movie} action={action}/>
               </div>
             ))}
           </div>

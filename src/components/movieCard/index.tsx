@@ -41,7 +41,6 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
  const isMustWatch = mustWatch.find((id) => id === movie.id)? true : false;
 
-{action(movie)}
 
 
   return (
@@ -89,7 +88,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
+        {action && action(movie)}
          <Link to={`/movies/${movie.id}`}>
         <Button variant="outlined" size="medium" color="primary">
         More info ....

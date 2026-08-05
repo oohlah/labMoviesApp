@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext }from "react";
 import { useParams } from "react-router-dom";
 import { getPersonDetails, getPersonMovieCredits } from "../api/tmdb-api";
 import { useQuery } from "react-query";
@@ -7,8 +7,24 @@ import PersonDetailsCard from "../components/personDetailsCard";
 import { PersonMovieCredits, PersonDetails} from "../types/interfaces";
 import PersonMovieCreditsSection from '../components/personMovieCredits';
 import Header from "../components/headerMovieList";
+import { MoviesContext } from "../contexts/moviesContext";
+import type { BaseMovieProps } from "../types/interfaces";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Button from "@mui/material/Button";
+
+
 
 const PersonDetailsPage: React.FC = () => {
+
+const { addToFavourites } = useContext(MoviesContext);
+
+const action = (movie: BaseMovieProps) => (
+  <Button 
+    onClick={() => addToFavourites(movie)}
+  >
+    <FavoriteIcon />
+  </Button>
+);
 
      const {id} = useParams();
 
@@ -48,7 +64,7 @@ const PersonDetailsPage: React.FC = () => {
     <PersonDetailsCard person={person!} />
 
 
-    <PersonMovieCreditsSection movieCredits={movieCredits!}/>
+    <PersonMovieCreditsSection movieCredits={movieCredits!} action={action}/>
 </>
 
 );

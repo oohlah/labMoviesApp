@@ -1,14 +1,14 @@
 import React from "react";
-import type { PersonMovieCredits } from "../../types/interfaces";
+import type { PersonMovieCredits, BaseMovieProps } from "../../types/interfaces";
 import MovieImageCarousel from "../../components/movieImageCarousel";
 
 
 interface PersonMovieCreditsProps  {
   movieCredits: PersonMovieCredits;
-//   action: (m: BaseMovieProps) => React.ReactNode;
-}
+action: (m: BaseMovieProps) => React.ReactNode;
+ }
 
-const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCredits}) =>{
+const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCredits, action}) =>{
   
      const allMovies = [...movieCredits!.cast, ...movieCredits!.crew];
 
@@ -36,13 +36,13 @@ const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCred
 
 
  <h2>Popular Movies</h2>
-   <MovieImageCarousel movies={popularMovies}>
+   <MovieImageCarousel movies={popularMovies} action={action}>
         </MovieImageCarousel>
 
 
 
  <h2>All Movies</h2>
-  <MovieImageCarousel movies={orderedMovies}>
+  <MovieImageCarousel movies={orderedMovies} action={action}>
         </MovieImageCarousel>
 </>
  ): (
