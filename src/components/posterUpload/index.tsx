@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { uploadPoster } from "../../api/supabase-api";
+import type { FantasyMovie} from "../../types/interfaces";
 
 interface PosterUploadProps {
-  control: any;
+  control: Control<FantasyMovie>;
 }
 
 const PosterUpload: React.FC<PosterUploadProps> = ({ control }) => {
