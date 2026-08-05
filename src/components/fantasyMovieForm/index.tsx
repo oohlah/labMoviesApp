@@ -3,16 +3,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useForm, Controller, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { AuthContext } from "../../contexts/authContext";
-import type { FantasyMovie, PersonList} from "../../types/interfaces";
+import type { FantasyMovie} from "../../types/interfaces";
 import styles from "../reviewForm/styles"
-import { useQuery } from "react-query";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-import { SearchPeople } from "../../api/tmdb-api";
-import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import dayjs from "dayjs";
@@ -20,6 +17,7 @@ import {addFantasyMovie} from "../../api/supabase-api";
 import PosterUpload from "../../components/posterUpload";
 import GenreSelector from "../../components/genreSelector";
 import ProductionCountries from "../../components/production_countries"
+import CastSelector from "../../components/castSelector";
 
 const FantasyMovieForm: React.FC = () => {
 
@@ -39,31 +37,14 @@ const FantasyMovieForm: React.FC = () => {
 
 
 
-  const { control, formState: { errors }, handleSubmit, reset, } = useForm<FantasyMovie>(defaultValues);
+const { control, formState: { errors }, handleSubmit, reset, } = useForm<FantasyMovie>(defaultValues);
 
 const { user } = useContext(AuthContext);
 
  const navigate = useNavigate();
 
  const [open, setOpen] = useState(false);
- const [searchWord, setSearchWord] = useState("");
-//  let castMembers: FantasyCastMember[]= [];
 
-//manage cast array, replace cast array with updated fields
- const { fields, replace} = useFieldArray({
-  control,
-  name: "cast",
-});
-
-
-
-
- const { data: personData, error: personErrorMessage, isLoading: personLoading, isError: personError  } = useQuery<PersonList, Error>(["people", searchWord],
-  () => SearchPeople(searchWord),
-  {
-    enabled: searchWord.length > 1,
-  }
-);
 
  const handleSnackClose = () => {
         setOpen(false);
@@ -95,10 +76,6 @@ const { user } = useContext(AuthContext);
 };
  
 
-   
-      if (personError) {
-    return <h1>{(personErrorMessage as Error).message}</h1>;
-  }
     
       return (
         <Box component="div" sx={styles.root}>
@@ -208,76 +185,12 @@ const { user } = useContext(AuthContext);
            <GenreSelector control={control}/>
          
 
-<Controller
-  name="cast"
-  control={control}
-  defaultValue={[]}
-  render={({ field }) => (
-    <Autocomplete
-      multiple
-      options={personData?.results ?? []}
-      getOptionLabel={(option) => option.name}
+        <CastSelector control={control}/>
 
-      onChange={(_, people) => {
 
-        replace(people.map(person => ({
-          personId: person.id,
-          actorName: person.name,
-          characterName: "",
-          description: "",
-        })));
+        <PosterUpload control={control}/>
 
-      }}
-
-      inputValue={searchWord}
-
-      onInputChange={(_, value) => {
-        setSearchWord(value);
-      }}
-
-      renderInput={(params) => (
-        <TextField {...params} label="Cast" />
-      )}
-    />
-  )}
-/>
-
-{/* UseFieldArray for dynamic character name fields! */} 
-{/* // get dynamic inputs for each cast member */}
- {fields.map((member, index) => {
-    return(
-   <Box key={member.id}>
-    <Typography>{member.actorName}</Typography>
-<Controller
-  name={`cast.${index}.characterName`}
-  control={control}
-  rules={{     required: "Character Name cannot be empty.",
-               minLength: { value: 1, message: "Please enter character name" },
-              }}
-  //display text, merge with cast array
-  render={({ field }) => (
-     <TextField {...field} label="Character Name" />
-  )}
-/>
-
-<Controller
-  name={`cast.${index}.description`}
-  control={control}
-  rules={{     required: "Description cannot be empty.",
-               minLength: { value: 5, message: "Please enter character description" },
-              }}
- 
-  render={({ field }) => (
-     <TextField  multiline fullWidth minRows={3}{...field} label="Character Description" />
-        )}
-      />
-    </Box>
-  );
-})}
-
-<PosterUpload control={control}/>
-
-<ProductionCountries control={control}/>
+        <ProductionCountries control={control}/>
 
     
             <Box >
