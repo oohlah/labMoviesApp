@@ -1,4 +1,4 @@
-import React, {MouseEvent, useContext } from "react";
+import React, {useContext } from "react";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -43,10 +43,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
 {action(movie)}
 
-  const handleRemoveFromFavourite = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-      removeFromFavourites(movie);
-  };
+
   return (
     <Card sx={styles.card}>
          <CardHeader

@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { BaseMovieProps, FantasyMovie } from "../types/interfaces";
+import React, { useState, useCallback, useEffect } from "react";
+import { BaseMovieProps } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
@@ -22,9 +22,26 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
-    const [favourites, setFavourites] = useState<number[]>([]);
-    const [mustWatch, setMustWatch] = useState<number[]>([]);
+    //lazy initialisatoin to fetch favourites from storage
+   const [favourites, setFavourites] = useState<number[]>(() => {
+  const saved = localStorage.getItem("favourites");
+  return saved ? JSON.parse(saved) : [];
+});
 
+const [mustWatch, setMustWatch] = useState<number[]>(() => {
+  const saved = localStorage.getItem("mustWatch");
+  return saved ? JSON.parse(saved) : [];
+});
+
+//update local storage when state changes
+useEffect(() => {
+  localStorage.setItem("favourites", JSON.stringify(favourites));
+}, [favourites]);
+
+
+useEffect(() => {
+  localStorage.setItem("mustWatch", JSON.stringify(mustWatch));
+}, [mustWatch]);
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {

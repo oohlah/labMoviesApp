@@ -46,7 +46,7 @@ const FavouriteMoviesPage: React.FC= () => {
     return <Spinner />;
   }
 
-   const allFavourites = favouriteMovieQueries.map((q) => q.data);
+   const allFavourites = favouriteMovieQueries.map((q) => q.data).filter(Boolean);
   const displayedMovies = allFavourites
     ? filterFunction(allFavourites)
     : [];
