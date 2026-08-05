@@ -1,6 +1,6 @@
 
 import supabase from "../lib/supbase";
-
+import type {Review, FantasyMovie} from "../types/interfaces";
 
 
 // this is how I'll fetch the data in supabase-api
