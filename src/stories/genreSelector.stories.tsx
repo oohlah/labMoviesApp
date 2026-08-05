@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 const GenreSelectorWrapper = () => {
 
-  const { control } = useForm<FantasyMovie>({
+  const { control, formState: {errors} } = useForm<FantasyMovie>({
     defaultValues: {
       genres: [],
     },
@@ -19,7 +19,7 @@ const GenreSelectorWrapper = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GenreSelector control={control} />
+      <GenreSelector control={control} errors={errors}/>
     </QueryClientProvider>
   );
 };

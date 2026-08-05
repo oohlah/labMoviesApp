@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useForm } from "react-hook-form";
 import ProductionCountries from "../components/production_countries";
 import Box from "@mui/material/Box";
-
+import type { FantasyMovie } from "../types/interfaces";
 
 const Wrapper = () => {
-  const { control } = useForm({
+  const { control, formState: {errors}  } = useForm<FantasyMovie>({
     defaultValues: {
       production_countries: [],
     },
@@ -13,7 +13,7 @@ const Wrapper = () => {
 
   return (
     <Box sx={{ width: "40ch" }}>
-      <ProductionCountries control={control} />
+      <ProductionCountries control={control} errors={errors} />
     </Box>
   );
 };

@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Control } from "react-hook-form";
 
 import CastSelector from "../components/castSelector";
 import type { FantasyMovie } from "../types/interfaces";
 
 import peopleData from "./peopleData";
+
 
 
 const queryClient = new QueryClient();
@@ -20,7 +21,8 @@ const meta = {
         peopleData
       );
 
-      const methods = useForm<FantasyMovie>({
+     
+       const methods = useForm<FantasyMovie>({
         defaultValues: {
           title: "",
           overview: "",
@@ -50,6 +52,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    control: undefined as any,
+    control: {} as Control<FantasyMovie>,
+    errors: {},
   },
 };
