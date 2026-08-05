@@ -6,7 +6,7 @@ const UsePagination= (): PaginationProp =>{
     const [page, setPage] = React.useState(1); 
 
     const handlePageChange = (
-      event: React.ChangeEvent<unknown>,
+      _event: React.ChangeEvent<unknown>, //intentionally unused
       value: number
     ) => {
       console.log(value); //value changing
