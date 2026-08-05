@@ -7,6 +7,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Spinner from "../../components/spinner";
 
   interface CastSelectorProps {
   control: Control<FantasyMovie>;
@@ -35,6 +36,10 @@ const CastSelector: React.FC <CastSelectorProps> = ({control, errors}) => {
     enabled: searchWord.length > 1,
   }
 );
+
+ if (personLoading) {
+    return <Spinner />;
+  }
 
     if (personError) {
     return <h1>{(personErrorMessage as Error).message}</h1>;
