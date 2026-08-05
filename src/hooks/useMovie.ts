@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getMovies } from '../api/tmdb-api'
 import { MovieDetailsProps } from '../types/interfaces';
 
-const useMovie = (id: string) => {
+const useMovie = (id: number) => {
     const [movie, setMovie] = useState<MovieDetailsProps>();
     useEffect(() => {
         getMovies(id).then(movie => {
