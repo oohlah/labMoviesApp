@@ -3,21 +3,26 @@ import countries from "../../components/fantasyMovieForm/countriesList";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors, Control } from "react-hook-form";
 import MenuItem from "@mui/material/MenuItem";
+import type {FantasyMovie} from "../../types/interfaces";
+import Typography from "@mui/material/Typography";
 
 interface productionCountriesProp {
-  control: any;
+  control: Control<FantasyMovie>;
+  errors: FieldErrors <FantasyMovie>;
+
 }
 
 
-const productionCountries: React.FC<productionCountriesProp> = ({ control }) => {
+const productionCountries: React.FC<productionCountriesProp> = ({ control, errors }) => {
 
 
 
 
 return (
  
+    <>
            <Controller
              name="production_countries"
              control={control}
@@ -42,8 +47,14 @@ return (
        </FormControl>
        )}
      />
-);
+{errors.production_countries && (
+        <Typography variant="h6" component="p">
+          {errors.production_countries.message}
+        </Typography>
+      )}
 
+    </>
+  );
 };
 
 

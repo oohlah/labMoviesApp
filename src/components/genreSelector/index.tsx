@@ -1,20 +1,21 @@
 import React from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import { useQuery } from "react-query";
-
+import Typography from "@mui/material/Typography";
 import { getGenres } from "../../api/tmdb-api";
 import type { GenreData, FantasyMovie } from "../../types/interfaces";
 
 interface GenreSelectorProps {
   control: Control<FantasyMovie>;
+  errors: FieldErrors <FantasyMovie>;
 }
 
 
-const GenreSelector: React.FC<GenreSelectorProps> = ({ control }) => {
+const GenreSelector: React.FC<GenreSelectorProps> = ({ control, errors}) => {
 
 
 const { data: genreData, isLoading, error } = useQuery<GenreData, Error>(
@@ -34,6 +35,7 @@ if (error) {
 
 
 return (
+    <>
   <Controller
     name="genres"
     control={control}
@@ -73,9 +75,14 @@ return (
       </FormControl>
     )}
   />
-);
+   {errors.genres && (
+        <Typography variant="h6" component="p">
+          {errors.genres.message}
+        </Typography>
+      )}
 
+    </>
+  );
 };
-
 
 export default GenreSelector;

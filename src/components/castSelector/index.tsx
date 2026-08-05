@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import type { PersonList, FantasyMovie} from "../../types/interfaces";
-import { Controller, Control, useFieldArray} from "react-hook-form";
+import { Controller, Control, useFieldArray, FieldErrors} from "react-hook-form";
 import { useQuery } from "react-query";
 import { SearchPeople } from "../../api/tmdb-api";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 
   interface CastSelectorProps {
   control: Control<FantasyMovie>;
+  errors: FieldErrors<FantasyMovie>;
 }
 
-const CastSelector: React.FC <CastSelectorProps> = ({control}) => {
+const CastSelector: React.FC <CastSelectorProps> = ({control, errors}) => {
 
   
 
@@ -46,6 +47,7 @@ return (
 <Controller
   name="cast"
   control={control}
+  rules={{ required: "At least one actor is Required" }}
   defaultValue={[]}
   render={({ field }) => (
     <Autocomplete
@@ -76,6 +78,11 @@ return (
         />
       )}
     />
+     {errors.cast && !Array.isArray(errors.cast) && (
+  <Typography variant="h6" component="p">
+    {errors.cast.message}
+  </Typography>
+)}
  
  {fields.map((member, index) => (
         <Box key={member.id}>
@@ -95,7 +102,11 @@ return (
               <TextField {...field} label="Character Name" />
             )}
           />
-
+           {errors.cast?.[index]?.characterName && (
+           <Typography variant="h6" component="p">
+           {errors.cast[index]?.characterName?.message}
+          </Typography>
+           )}
           <Controller
             name={`cast.${index}.description`}
             control={control}
@@ -116,6 +127,12 @@ return (
               />
             )}
           />
+           {errors.cast?.[index]?.description && (
+           <Typography variant="h6" component="p">
+           {errors.cast[index]?.description?.message}
+          </Typography>
+           )}
+        
         </Box>
       ))}
 

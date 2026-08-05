@@ -182,15 +182,15 @@ const { user } = useContext(AuthContext);
             )}
         />
            
-           <GenreSelector control={control}/>
+           <GenreSelector control={control} errors={errors}/>
          
 
-        <CastSelector control={control}/>
+        <CastSelector control={control} errors={errors}/>
 
 
         <PosterUpload control={control}/>
 
-        <ProductionCountries control={control}/>
+        <ProductionCountries control={control} errors={errors}/>
 
     
             <Box >
