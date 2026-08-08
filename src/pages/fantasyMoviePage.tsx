@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { AuthContext } from "../contexts/authContext";
 import type { FantasyMovie} from "../types/interfaces";
 import FantasyMovieCard from "../components/fantasyMovieCard";
+import FantasyMovieCarousel from "../components/fantasyMovieCarousel";
 
 const FantasyMoviesPage: React.FC = () => {
   
@@ -55,28 +56,18 @@ const { data: fantasyMovies, isLoading: moviesLoading, error: movieserror } = us
         </Link>
         
         <h2>Your Fantasy Movies</h2>
-        {/* {userFantasyMovies?.map(movie => (
- 
- 
-        <FantasyMovieList key={movie.id} movie={movie}/> // ADD MOVIE DATA
-        ))}; */}
+        
       
-        {userFantasyMovies?.map(movie => (
-        <FantasyMovieCard 
-         key={movie.id} 
-         movie={movie}
-            />
-         ))}
+       <FantasyMovieCarousel 
+         movies={userFantasyMovies ?? []}
+         />
 
 
         <h2>All Fantasy Movies</h2>
 
-        {fantasyMovies?.map(movie => (
-      <FantasyMovieCard 
-        key={movie.id} 
-        movie={movie}
-      />
-    ))}
+      <FantasyMovieCarousel 
+         movies={fantasyMovies ?? []}
+         />
        </>
     )};
 
