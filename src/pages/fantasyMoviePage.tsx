@@ -7,7 +7,6 @@ import { getFantasyMovies, getUserFantasyMovies} from "../api/supabase-api";
 import { useQuery } from "react-query";
 import { AuthContext } from "../contexts/authContext";
 import type { FantasyMovie} from "../types/interfaces";
-import FantasyMovieCard from "../components/fantasyMovieCard";
 import FantasyMovieCarousel from "../components/fantasyMovieCarousel";
 
 const FantasyMoviesPage: React.FC = () => {
