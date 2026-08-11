@@ -8,6 +8,18 @@ import { useQuery } from "react-query";
 import { AuthContext } from "../contexts/authContext";
 import type { FantasyMovie} from "../types/interfaces";
 import FantasyMovieCarousel from "../components/fantasyMovieCarousel";
+import Typography from "@mui/material/Typography";
+
+
+const styles = {
+  sectionHeading: {
+    paddingTop: "16px",
+    paddingBottom: "16px",
+     fontSize: "1.5rem",
+    fontWeight: "semi-bold",
+  },
+};
+
 
 const FantasyMoviesPage: React.FC = () => {
   
@@ -42,8 +54,11 @@ const { data: fantasyMovies, isLoading: moviesLoading, error: movieserror } = us
         
         <>
         <Header title={title} />
-
-        <h2>Create a Fantasy Movie</h2>
+<Typography variant="h5" component="h2"
+     sx={styles.sectionHeading}>
+    Create a Fantasy Movie
+</Typography>
+        
          <Link to={`/fantasyMovieForm`}>
         <Button
         variant="contained"
@@ -54,15 +69,21 @@ const { data: fantasyMovies, isLoading: moviesLoading, error: movieserror } = us
        </Button>
         </Link>
         
-        <h2>Your Fantasy Movies</h2>
-        
+        <Typography variant="h5" component="h2"
+             sx={styles.sectionHeading}>
+    Your Fantasy Movies
+     </Typography>
+  
       
        <FantasyMovieCarousel 
          movies={userFantasyMovies ?? []}
          />
 
-
-        <h2>All Fantasy Movies</h2>
+<Typography variant="h5" component="h2"
+     sx={styles.sectionHeading}>
+    All Fantasy Movies
+</Typography>
+       
 
       <FantasyMovieCarousel 
          movies={fantasyMovies ?? []}

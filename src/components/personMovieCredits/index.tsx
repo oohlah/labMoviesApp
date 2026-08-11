@@ -1,12 +1,21 @@
 import React from "react";
 import type { PersonMovieCredits, BaseMovieProps } from "../../types/interfaces";
 import MovieImageCarousel from "../../components/movieImageCarousel";
-
+import Typography from "@mui/material/Typography";
 
 interface PersonMovieCreditsProps  {
   movieCredits: PersonMovieCredits;
 action: (m: BaseMovieProps) => React.ReactNode;
  }
+
+ const styles = {
+  sectionHeading: {
+    paddingTop: "16px",
+    paddingBottom: "16px",
+     fontSize: "1.5rem",
+    fontWeight: "semi-bold",
+  },
+};
 
 const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCredits, action}) =>{
   
@@ -35,13 +44,19 @@ const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCred
    
 
 
- <h2>Popular Movies</h2>
+<Typography variant="h5" component="h2"
+     sx={styles.sectionHeading}>
+    Popular Movies
+</Typography>
    <MovieImageCarousel movies={popularMovies} action={action}>
         </MovieImageCarousel>
 
 
+<Typography variant="h5" component="h2"
+     sx={styles.sectionHeading}>
+    All Movies
+</Typography>
 
- <h2>All Movies</h2>
   <MovieImageCarousel movies={orderedMovies} action={action}>
         </MovieImageCarousel>
 </>
