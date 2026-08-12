@@ -1,20 +1,13 @@
 import React from "react"; // replace existing react import
 import {  MovieCredits, CrewMember } from "../../types/interfaces";
 import ImageCarousel from "../personImageCarousel";
-import Typography from "@mui/material/Typography";
+import SectionHeading from "../../components/sectionHeading";
 
 interface MovieCreditsSectionProps {
   credits: MovieCredits;
 }
 
- const styles = {
-  sectionHeading: {
-    paddingTop: "16px",
-    paddingBottom: "16px",
-     fontSize: "1.5rem",
-    fontWeight: "semi-bold",
-  },
-};
+
 
 const MovieCreditsSection: React.FC <MovieCreditsSectionProps>= ({credits}) => {
 
@@ -43,35 +36,26 @@ const producers = credits?.crew.filter(
         <>
         
 
-        
-       
-         <Typography variant="h5" component="h2"
-     sx={styles.sectionHeading}>
-    Cast
-    </Typography>
+
+      <SectionHeading>Actors</SectionHeading>
         <ImageCarousel people={actors}>
         </ImageCarousel>
 
-   <Typography variant="h5" component="h2"
-        sx={styles.sectionHeading}>
-         Directors
-      </Typography>
+
+         <SectionHeading>Directors</SectionHeading>
       
         <ImageCarousel people={directors}>
         </ImageCarousel>
 
-     <Typography variant="h5" component="h2"
-        sx={styles.sectionHeading}>
-        Writers
-       </Typography>
+    
+
+          <SectionHeading>Writers</SectionHeading>
       
          <ImageCarousel people={writers}>
         </ImageCarousel>
 
-        <Typography variant="h5" component="h2"
-         sx={styles.sectionHeading}>
-         Production
-        </Typography>
+
+   <SectionHeading>Production</SectionHeading>
       
          <ImageCarousel people={producers}>
         </ImageCarousel>
