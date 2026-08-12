@@ -14,18 +14,23 @@ const PersonMovieCreditsSection: React.FC <PersonMovieCreditsProps>= ({movieCred
   
      const allMovies = [...movieCredits!.cast, ...movieCredits!.crew];
 
+     console.log("ALL MOVIES:", allMovies.length);
+
+
      //map out duplicates
     const uniqueMovies = Array.from(
     new Map(allMovies.map(movie => [movie.id, movie])).values()
     );
 
+    console.log("UNIQUE MOVIES:", uniqueMovies.length);
+
   //order from most to least, and use only 10
-  const popularMovies = uniqueMovies
+  const popularMovies = [...uniqueMovies]
   .sort((a, b) => b.popularity - a.popularity)
   .slice(0, 10);
 
-  //convert release_date string to num and sort
-  const orderedMovies = [...allMovies]
+  //convert release_date string to num and sort // use unique movies remove duplicates
+  const orderedMovies = [...uniqueMovies]
   .filter(movie => movie.release_date)
   .sort((a, b) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
 
