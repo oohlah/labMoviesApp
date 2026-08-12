@@ -660,7 +660,7 @@ TanStack React Query: Manages asynchronous server state, API enrichment, and sop
 
 - Deployment (Vercel): https://lab-movies-app-3zan.vercel.app/
 
-- Video Resource:  TBD
+- Video Resource:  https://youtu.be/YIRSwhySXYI
 
 ##References
 
