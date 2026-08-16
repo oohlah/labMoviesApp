@@ -1,0 +1,9 @@
+Name : Orla Fitzgerald
+Student Number: 20114786
+
+
+- Github:  https://github.com/oohlah/labMoviesApp
+
+- Deployment (Vercel): https://lab-movies-app-3zan.vercel.app/
+
+- Video Resource:  https://www.youtube.com/watch?v=YIRSwhySXYI
