@@ -1,4 +1,6 @@
-#Description
+# Description
+
+![Home page](/src/images/readme_images/homepage.png)
 
 MovieApp is a full-stack React web application designed for an interactive movie discovery and content creation experience.
 
@@ -10,11 +12,11 @@ Personal lists, such as Favorites and Must-Watch, utilize lazy state initializat
 
 Secure session management, backend data persistence, and cloud media storage are all handled via Supabase, ensuring that all user-generated content is maintained reliably in the cloud.
 
-#Usage
+# Usage
 
-##Movie Discover and Local State Management
+## Movie Discover and Local State Management
 
-###API Enrichment and Caching
+### API Enrichment and Caching
 
  The app is designed as a presentational shell that stays in sync with real-world data through TMDB API lookups. When a user lands on the Home or Upcoming pages, the app triggers a fetch to TMDB's discovery endpoints to fill the UI with movie objects.
 
@@ -35,7 +37,9 @@ export const getMovies = (page: number) => {
 
 ```
 
-##Pagination
+## Pagination
+
+![Pagination component](/src/images/readme_images/pagination.png)
 
 Movie discovery is implemented using a reusable custom pagination hook, allowing pagination state to be shared across multiple pages while keeping UI components stateless.
 
@@ -82,7 +86,7 @@ The keepPreviousData preserves the current page of movie results while the next 
 The reusable PaginationComponent acts as a presentation layer around Material UI's Pagination component, receiving the current page, total page count, and page change handler as props. This separation keeps the pagination logic reusable and independent of the UI.
 
 
-##Public and Private Route Protection
+## Public and Private Route Protection
 
 The application uses route protection through a reusable PrivateRoute component built with React Router. Instead of adding authentication checks directly into each individual page, protected pages are wrapped with PrivateRoute, allowing the authentication logic to be managed in one central location and reused throughout the application.
 
@@ -120,9 +124,13 @@ Protected routes are defined within the main routing configuration by wrapping p
 
 Authentication is kept separate from individual page components, which makes it eaier to add additional protected features while maintaining the same authentication flow across the application.
 
-##Cast / Crew Details
+## Cast / Crew Details
 
-###Movie Credits & Person Image Carousel
+### Movie Credits & Person Image Carousel
+
+
+![Movie Credits Page](/src/images/readme_images/person_image_carousel.png)
+
 
 The movie details page was extended to display the people involved in each movie. The movie ID is taken from the URL using React Router's useParams() hook. This ID is then used to request the movie's credits from TMDB using React Query.
 
@@ -204,7 +212,7 @@ The carousel uses Embla Carousel to provide horizontal scrolling. Each person is
 The same carousel component can be reused for all four credit categories. The data passed to it determines which people are displayed, while the carousel itself is responsible only for displaying and navigating the results.
 
 
-###Actor Details - Filtering
+### Actor Details - Filtering
 
 The person details page uses the person ID from the URL to retrieve the person's details and movie credits from TMDB. The credits contain separate cast and crew arrays, which are combined so that all associated movies can be displayed together.
 
@@ -240,13 +248,19 @@ The movies are then filtered and sorted into two lists. The popular movies are o
 
 Both lists are displayed using the reusable MovieImageCarousel, which also allows the existing favourite action to be used for each movie.
 
-###Person Details Card
+### Person Details Card
+
+![Person Details](/src/images/readme_images/actor_profile.png)
+
 
 The person's TMDB data is displayed using a reusable PersonDetailsCard component. The component presents the person's profile image, biography and key information such as their birthday, place of birth, department and popularity. Material UI's responsive Grid component is used to arrange this information into separate sections that adapt to different screen sizes.
 
-##Advanced Forms
+## Advanced Forms
 
-###Dynaimc Cast Selection
+### Dynamic Cast Selection
+
+![Cast Selector](/src/images/readme_images/cast_selector.png)
+
 
 The fantasy movie form allows users to search for actors from TMDB and create a dynamic cast list. The form uses React Hook Form, React Query and Material UI's Autocomplete component to search the TMDB API and create additional form fields for the selected actors.
 
@@ -316,7 +330,7 @@ Each field uses React Hook Form's Controller to connect Material UI components s
 
 Character names and descriptions are validated for each cast member. Since the fields are stored inside the cast array, validation errors are accessed using the relevant array index.
 
-###Date Picker 
+### Date Picker 
 
 The fantasy movie form uses Material UI's DatePicker for the release date. The release_date field is stored as a string rather than a number so that it matches the format used by the TMDB API.
 
@@ -363,7 +377,11 @@ The LocalizationProvider is placed around the application in index.tsx and provi
 
 Using AdapterDayjs tells the DatePicker how to handle the dates it receives.
 
-###Supabase Image API Storage
+### Supabase Image API Storage
+
+![Upload Image](/src/images/readme_images/upload_image.png)
+
+
 
 The form also allows users to upload a poster for their fantasy movie. The image is uploaded to a Supabase Storage bucket rather than being stored directly in the database.
 
@@ -391,7 +409,7 @@ A unique file path is created using the current timestamp and the original filen
 
 The database only stores a reference to the uploaded image instead of the image data itself. The stored path can then be used to retrieve the poster when the fantasy movie is displayed.
 
-##Authentication with Supabase
+## Authentication with Supabase
 
 The application uses Supabase Authentication to manage user accounts and sessions. A Supabase client is created using the project's URL and publishable key, which are stored as Vite environment variables rather than being written directly into the source code.
 
@@ -508,7 +526,7 @@ const { user } = useContext(AuthContext);
 This separates the authentication responsibilities within the application: Supabase manages authentication and sessions, the auth service provides reusable authentication operations, and AuthContext makes the current user available to components that need it. The PrivateRoute component then uses the authentication service to control access to protected routes.
 
 
-##Supabase Database & User Data
+## Supabase Database & User Data
 
 Supabase is also used as the application's persistent database for user-generated content, including fantasy movies and movie reviews. The database tables were created and configured through the Supabase console, with columns matching the TypeScript interfaces used by the application.
 
@@ -574,9 +592,9 @@ New fantasy movies and reviews are added using Supabase's insert() method. The s
 The database therefore handles persistent storage while the supabase-api functions provide a small abstraction layer between the database and the React components. React Query is then used by the pages to manage the resulting server state.
 
 
-###Favourites and Must-Watch List
+### Favourites and Must-Watch List
 
-Favourites and Must-Watch Lists
+#### Favourites and Must-Watch Lists
 
 The Favourites and Must-Watch lists use React Context and localStorage rather than the Supabase database. The lists are stored as arrays of movie IDs.
 
@@ -613,9 +631,9 @@ useEffect(() => {
 The lists are provided through MoviesContext, allowing components such as movie cards and movie detail pages to access and update them without passing the data through multiple levels of props.
 
 
-##Tech Stack
+## Tech Stack
 
-###Frontend
+### Frontend
 
 - React 18: Library for building the user interface
 
@@ -654,7 +672,7 @@ TanStack React Query: Manages asynchronous server state, API enrichment, and sop
 
 - Storybook: Comprehensive component documentation suite for testing UI elements in isolation
 
-##Deployment & Media
+## Deployment & Media
 
 - Github:  https://github.com/oohlah/labMoviesApp
 
@@ -662,7 +680,7 @@ TanStack React Query: Manages asynchronous server state, API enrichment, and sop
 
 - Video Resource:  https://www.youtube.com/watch?v=YIRSwhySXYI
 
-##References
+## References
 
 Convert string to number using newDate() and getTime() https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
 
